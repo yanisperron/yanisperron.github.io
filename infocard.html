@@ -3,63 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Afficher les Infos GeoJSON</title>
-  <style>
-    .info {
-      margin-bottom: 20px;
-      padding: 10px;
-      border: 1px solid #ccc;
-    }
-  </style>
+  <title>Information du Point</title>
 </head>
 <body>
+  <h1>Détails du Point</h1>
 
-  <h1>Informations des Points d'Intérêt</h1>
-
-  <div id="info-container"></div>
+  <p><strong>Nom :</strong> <span id="name"></span></p>
+  <p><strong>Description :</strong> <span id="description"></span></p>
 
   <script>
-    // Remplacer ceci par le chemin de ton fichier GeoJSON
-    var geojsonUrl = '/edifices.geojson';  // Chemin vers le fichier GeoJSON
+    // Récupérer les paramètres d'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const description = urlParams.get('description');
 
-    // Fonction pour afficher les informations dans le conteneur HTML
-    function afficherInfos(geojsonData) {
-      // Sélectionner le conteneur où afficher les infos
-      var container = document.getElementById("info-container");
-      
-      // Vider le conteneur avant de l'actualiser
-      container.innerHTML = '';
-
-      // Parcourir les features du fichier GeoJSON
-      geojsonData.features.forEach(function(feature) {
-        var name = feature.properties.name || 'Nom non défini';
-        var Pays = feature.properties.pays || 'Pays non défini';
-        var description = feature.properties.description || 'Description non fournie';
-
-        // Créer un div pour afficher chaque point
-        var infoDiv = document.createElement('div');
-        infoDiv.classList.add('info');
-
-        // Ajouter le contenu de chaque point d'intérêt
-        infoDiv.innerHTML = `
-          <strong>Nom : </strong> ${name} <br>
-          <strong>Pays : </strong> ${Pays} <br>
-          <strong>Description : </strong> ${description} <br>
-        `;
-
-        // Ajouter la div au conteneur
-        container.appendChild(infoDiv);
-      });
-    }
-
-    // Charger le fichier GeoJSON
-    fetch(geojsonUrl)
-      .then(response => response.json())
-      .then(data => {
-        afficherInfos(data);  // Appeler la fonction pour afficher les informations
-      })
-      .catch(error => console.error('Erreur de chargement du fichier GeoJSON:', error));
+    // Afficher les valeurs dans les éléments correspondants
+    document.getElementById('name').textContent = name || 'Nom non défini';
+    document.getElementById('description').textContent = description || 'Description non fournie';
   </script>
-
 </body>
 </html>
