@@ -1,23 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Info Card</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Information du Point</title>
 </head>
 <body>
-    <div id="name">Nom non défini</div>
-    <div id="description">Description non fournie</div>
+  <h1>Détails du Point</h1>
 
-    <script>
-        // Récupérer les paramètres de l'URL
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        // Extraire les valeurs des paramètres
-        const name = urlParams.get('name');
-        const description = urlParams.get('description');
-        
-        // Mettre à jour le contenu des éléments avec les valeurs extraites
-        document.getElementById('name').textContent = name || 'Nom non défini';
-        document.getElementById('description').textContent = description || 'Description non fournie';
-    </script>
+  <p><strong>Nom :</strong> <span id="name"></span></p>
+  <p><strong>Description :</strong> <span id="description"></span></p>
+
+  <script>
+    // Récupérer les paramètres d'URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const name = urlParams.get('name');
+    const description = urlParams.get('description');
+
+    // Afficher les valeurs dans les éléments correspondants
+    document.getElementById('name').textContent = name || 'Nom non défini';
+    document.getElementById('description').textContent = description || 'Description non fournie';
+  </script>
 </body>
 </html>
