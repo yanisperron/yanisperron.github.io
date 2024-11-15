@@ -12,10 +12,19 @@
   <p><strong>Description :</strong> <span id="description"></span></p>
 
   <script>
-    // Récupérer les paramètres d'URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const name = urlParams.get('name');
-    const description = urlParams.get('description');
+// Récupérer les paramètres de l'URL
+const urlParams = new URLSearchParams(window.location.search);
+
+// Initialiser des variables pour stocker les valeurs
+let name, description;
+
+// Parcourir les paramètres et stocker les valeurs
+urlParams.forEach((value, key) => {
+    if (key === 'name') {
+        name = value;
+    } else if (key === 'description') {
+        description = value;
+    }
 
     // Afficher les valeurs dans les éléments correspondants
     document.getElementById('name').textContent = name || 'Nom non défini';
