@@ -1,0 +1,258 @@
+body { 
+/*	padding: 0 0 0 4px;*/
+/*	margin: 0 auto; /* kleinere html op PC */
+	max-width: 600px;
+}
+
+h4 {
+	color:#EF7F1A;
+/*	color:#333;*/
+	font-variant: small-caps;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	margin: 10px 0 10px 0;
+	font-weight: 600;
+	font-weight: 500;
+}
+h5 {
+	color:#666;
+	font-family: Arial,sans-serif;
+	font-variant: small-caps;
+	font-size: 16px;
+	margin: 10px 10px 10px 0;
+	font-weight: 500;
+}
+p {
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	color: #333;
+/*	padding: 0 10px 0 0;*/
+}
+.link {
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	text-align: right;
+	font-style: italic;
+/*	padding: 0 10px 0 0;*/
+/*	margin: 0;*/
+}
+.name {
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	font-weight: 600;
+	color:#235778;
+	margin: 30px 0 0 0;
+}
+ul {
+	font-family: Arial,sans-serif;
+}
+ul li {
+	font-family: Arial,sans-serif;
+	margin-left: -20px;
+	padding-right: 8px;
+	/*padding: 0;*/
+}
+ol {
+	font-family: Arial,sans-serif;
+}
+ol li {
+	font-family: Arial,sans-serif;
+	margin-left: -20px;
+	padding-right: 8px;
+	/*padding: 0;*/
+}
+
+table tr td {
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	text-align: left; 
+	vertical-align: top;
+}
+
+p em {
+	color: #333;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+}
+.grey {
+	color: #333;
+	background-color: #F1F3F4!important;
+	padding: 20px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+/*	font-style: italic;*/
+	border-radius:  20px;
+}
+.book {
+	color: #333;
+	background-color: #FDF2E7!important;
+	padding:20px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	font-style: italic;
+	border-radius:  20px;
+}
+.kid {
+	color: #333;
+	background-color: #FFFBD1!important;
+	padding:20px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+/*	font-style: italic;*/
+	border-radius:  20px;
+}
+
+.brpoem {
+    display: block; 
+    margin-bottom: 1em; 
+	border-radius:  20px;
+} 
+.route {
+	color: #333;
+	background-color: #ECF0F8!important;
+	padding:20px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+/*	font-style: italic;*/
+	border-radius:  20px;
+}
+.maps {
+	color: #333;
+	background-color: #FDF2E7!important;
+	padding:20px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+	border-radius:  20px;
+}
+.www {
+	color: #333;
+	background-color: #FDF2E7!important;
+	padding:0 4px 0 8px;
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+/*	border-radius:  20px;*/
+}
+.icon {
+	width:16px;
+	height:16px;
+	margin: 10px 10px 0 0;
+	/*padding: 0px;*/
+	border: none;
+	/*margin-top: 14px;*/
+}
+.icon_24 {
+	width:24px;
+	border: none;
+}
+.icon_48 {
+	width:48px;
+/*	height:48px;*/
+	border: none;
+}
+
+a { 
+    text-decoration: none; 
+	font-family: Arial,sans-serif;
+	font-size: 16px;
+/*	color: #333;*/
+} 
+audio {
+	width: 100%;
+/*	background: #EF7F1A;*/
+	margin: 10px 0;
+}
+img {
+/*	padding: 10px 0;*/
+	margin: 10px 0;
+	border: 2px #EFF2F1 solid;
+	width: 100%;
+}
+
+.image_ { /* kader om foto */
+	padding: 0;
+	border: 2px #EFF2F1 solid;
+}
+
+.image_0 { /* rond kader om foto */
+	padding: 0;
+	border: 2px #EFF2F1 solid;
+	border-radius:  100%;
+}
+
+.img_kid {
+	padding: 0 0 10px 0;
+	width: 48px;
+	float: right;
+	border: none;
+}
+.img_shoe {
+/*	padding: 0 0 10px 0;*/
+	width: 36px;
+/*	float: left;*/
+	border: none;
+}
+.img_book {
+	width: 24px;
+	border: none;
+}
+html {
+    scrollbar-width: none; /* For Firefox */
+    -ms-overflow-style: none; /* For Internet Explorer and Edge */
+}
+
+html::-webkit-scrollbar {
+    width: 0px; /* For Chrome, Safari, and Opera */
+}
+
+html {
+	scroll-behavior: smooth;
+}
+
+/* unvisited link */
+a:link {
+  color: #4c76ba;
+}
+/* visited link */
+a:visited {
+  color: #4c76ba;
+}
+
+/* mouse over link */
+a:hover {
+  color: #000;
+}
+
+/* selected link */
+a:active {
+  color: #4c76ba;
+}
+
+figure {
+/*	background-color: #E0DFDF;*/
+  /*border: 1px #cccccc solid;*/
+/*  padding: 4px;*/
+  margin: auto;
+}
+
+figcaption {
+/*  background-color: #E0DFDF;*/
+/*	border: 1px #cccccc solid;		
+  color: 666;*/
+/*  font-style: italic;*/
+/*  padding: 2px;*/
+  text-align: center;
+  font-family: Arial,sans-serif;
+  font-size: 16px;
+  font-style: italic;
+  color: #333;
+	/*  padding:10px;*/
+/*  border-radius:  20px;*/
+}
+
+body {
+        -webkit-user-select: none;
+        -webkit-touch-callout: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+}
