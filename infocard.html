@@ -1,39 +1,23 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Information du Point</title>
+    <title>Info Card</title>
 </head>
 <body>
-  <h1>Détails du Point</h1>
+    <div id="name">Nom non défini</div>
+    <div id="description">Description non fournie</div>
 
-  <p><strong>Nom :</strong> <span id="name"></span></p>
-  <p><strong>Description :</strong> <span id="description"></span></p>
-
-  <script>
-// Récupérer les paramètres de l'URL
-const urlParams = new URLSearchParams(window.location.search);
-
-// Initialiser des variables pour stocker les valeurs
-let name, description;
-
-// Parcourir les paramètres et stocker les valeurs
-urlParams.forEach((value, key) => {
-    if (key === 'name') {
-        name = value;
-    } else if (key === 'description') {
-        description = value;
-    }
-  });
-
-    // Afficher les valeurs pour vérification
-console.log('Name:', name);
-console.log('Description:', description);
-    
-    // Afficher les valeurs dans les éléments correspondants
-    document.getElementById('name').textContent = name || 'Nom non défini';
-    document.getElementById('description').textContent = description || 'Description non fournie';
-  </script>
+    <script>
+        // Récupérer les paramètres de l'URL
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        // Extraire les valeurs des paramètres
+        const name = urlParams.get('name');
+        const description = urlParams.get('description');
+        
+        // Mettre à jour le contenu des éléments avec les valeurs extraites
+        document.getElementById('name').textContent = name || 'Nom non défini';
+        document.getElementById('description').textContent = description || 'Description non fournie';
+    </script>
 </body>
 </html>
