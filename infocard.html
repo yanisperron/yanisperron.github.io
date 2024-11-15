@@ -27,6 +27,10 @@ urlParams.forEach((value, key) => {
     }
   });
 
+    // Afficher les valeurs pour vérification
+console.log('Name:', name);
+console.log('Description:', description);
+    
     // Afficher les valeurs dans les éléments correspondants
     document.getElementById('name').textContent = name || 'Nom non défini';
     document.getElementById('description').textContent = description || 'Description non fournie';
