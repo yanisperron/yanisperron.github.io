@@ -51,22 +51,37 @@
             }
         }
 
+        // Symboles des devises
+        const currencySymbols = {
+            USD: '$',
+            GBP: '£',
+            EUR: '€',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$'
+        };
+
         // Afficher le prix avec conversion si nécessaire
         async function displayPrice() {
             const rates = await fetchExchangeRate();
+            let priceText = '';
+
             if (rates && currency !== 'EUR') {
                 const conversionRate = rates[currency];
                 if (conversionRate) {
                     const convertedPrice = (price / conversionRate).toFixed(2);
-                    document.getElementById('location-price').textContent = `Prix : ${convertedPrice}${currency}`;
+                    const symbol = currencySymbols[currency] || currency;
+                    priceText = `Prix : ${convertedPrice}${symbol}`;
                 } else {
-                    document.getElementById('location-price').textContent = `Prix : Conversion indisponible pour ${currency}`;
+                    priceText = `Prix : Conversion indisponible pour ${currency}`;
                 }
             } else if (currency === 'EUR') {
-                document.getElementById('location-price').textContent = `Prix : ${price.toFixed(2)}€`;
+                const symbol = currencySymbols['EUR'];
+                priceText = `Prix : ${price.toFixed(2)}${symbol}`;
             } else {
-                document.getElementById('location-price').textContent = `Prix : Conversion indisponible`;
+                priceText = `Prix : Conversion indisponible`;
             }
+            document.getElementById('location-price').textContent = priceText;
         }
 
         // Appeler la fonction pour afficher le prix
