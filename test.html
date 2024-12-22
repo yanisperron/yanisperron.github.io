@@ -34,8 +34,8 @@
         const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
 
         // Mettre à jour les éléments HTML avec les informations de base
-        document.getElementById('location-name-country').textContent = `Nom, Pays : ${name}, ${country}`;
-        document.getElementById('location-description').textContent = `Description : ${description}`;
+        document.getElementById('location-name-country').textContent = `${name}, ${country}`;
+        document.getElementById('location-description').textContent = `${description}`;
 
         // Symboles des devises
         const currencySymbols = {
@@ -74,14 +74,14 @@
                 if (conversionRate) {
                     const convertedPrice = (price * conversionRate).toFixed(2);
                     // Affichage du prix converti avec le prix d'origine entre parenthèses
-                    priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
+                    priceText = `${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
                 } else {
                     // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
-                    priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
+                    priceText = `${price} ${currencySymbols[currency] || currency}`;
                 }
             } else {
                 // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
-                priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
+                priceText = `${price} ${currencySymbols[currency] || currency}`;
             }
         
             // Affichage du texte même si une erreur survient
