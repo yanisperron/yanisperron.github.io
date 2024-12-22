@@ -23,9 +23,9 @@
         }
 
         // Récupérer les données des paramètres
-        const name = getURLParameter('name');
-        const country = getURLParameter('pays');
-        const description = getURLParameter('description');
+        const name = getURLParameter('name') || 'Nom non spécifié';
+        const country = getURLParameter('pays') || 'Pays non spécifié';
+        const description = getURLParameter('description') || 'Pas de description.';
         const price = parseFloat(getURLParameter('prix')) || 0;
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
 
