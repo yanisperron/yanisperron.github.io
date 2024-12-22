@@ -80,15 +80,15 @@
                     if (currency === 'EUR') {
                         priceText = `${displayPrice}€`;  // Pas de parenthèses pour l'euro
                     } else {
-                        priceText = `${displayPrice}€ (${price} ${currencySymbols[currency] || currency})`;
+                        priceText = `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
                     }
                 } else {
                     // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
-                    priceText = `${price} ${currencySymbols[currency] || currency}`;
+                    priceText = `${price}${currencySymbols[currency] || currency}`;
                 }
             } else {
                 // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
-                priceText = `${price} ${currencySymbols[currency] || currency}`;
+                priceText = `${price}${currencySymbols[currency] || currency}`;
             }
 
             // Affichage du texte même si une erreur survient
