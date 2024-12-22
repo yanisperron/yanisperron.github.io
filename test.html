@@ -115,7 +115,8 @@
                 const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
                     const convertedPrice = (price * conversionRate).toFixed(2);
-                    priceText = `Prix : ${convertedPrice}€`; // Affichage en euros
+                    // Affichage du prix converti avec le prix d'origine entre parenthèses
+                    priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
                 } else {
                     // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
                     priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
