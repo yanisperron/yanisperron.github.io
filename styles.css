@@ -1,27 +1,41 @@
 /* Global styles for the popup */
-.popup {
-    background-color: #f0f0f0; /* Fond gris clair */
-    border-radius: 10px; /* Coins arrondis */
-    padding: 20px;
-    width: 100%; /* Occupe toute la largeur du conteneur parent */
-    height: 100%; /* Occupe toute la hauteur du conteneur parent */
-    box-sizing: border-box; /* Inclut le padding et les bordures dans la largeur et la hauteur totales */
-    overflow-y: auto; /* Permet le défilement vertical si le contenu est trop long */
-    font-family: Arial, sans-serif;
-    color: #333;
-}
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
-.popup h2,
-.popup p {
-    margin: 0 0 10px 0;
-}
+        .popup {
+            width: 80%; /* Utilise 80% de la largeur de l'écran */
+            height: 80%; /* Utilise 80% de la hauteur de l'écran */
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow-y: auto; /* Permet le défilement vertical si nécessaire */
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
 
-.popup h2 {
-    font-size: 1.5em;
-    color: #333;
-}
+        .popup h1 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
 
-.popup p {
-    font-size: 1.2em;
-    line-height: 1.4;
-}
+        .popup p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .popup img {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+        }
