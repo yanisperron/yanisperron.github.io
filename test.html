@@ -13,6 +13,7 @@
         <p id="location-name-country"></p>
         <p id="location-description"></p>
         <p id="location-price"></p>
+        <img id="location-image" src="" alt="Image" />
     </div>
 
     <script>
@@ -28,6 +29,7 @@
         const description = getURLParameter('description') || 'Pas de description.';
         const price = parseFloat(getURLParameter('prix')) || 0;
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+        const imageUrl = getURLParameter('image');
 
         // Clé API ExchangeRate-API (remplacez par votre propre clé)
         const apiKey = 'bf17fdfcdaf5d76106450067';
@@ -45,6 +47,11 @@
         // Mettre à jour les éléments HTML avec les informations de base
         document.getElementById('location-name-country').textContent = `${name}, ${country}`;
         document.getElementById('location-description').textContent = `${description}`;
+
+        // Mettre à jour l'image du pop-up si l'URL de l'image est présente
+            if (imageUrl) {
+                document.getElementById('location-image').src = imageUrl;
+            }
 
         // Récupérer les taux de change via l'API
         async function fetchExchangeRate() {
