@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="fr">
-        
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-    
+
 <body>
     <div class="popup">
         <p id="location-name-country">Nom, Pays : </p>
@@ -31,12 +31,7 @@
 
         // Clé API ExchangeRate-API (remplacez par votre propre clé)
         const apiKey = 'bf17fdfcdaf5d76106450067';
-        const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
-
-        // Mettre à jour les éléments HTML avec les informations de base
-        document.getElementById('location-name-country').textContent = `${name}, ${country}`;
-        document.getElementById('location-description').textContent = `${description}`;
-
+        
         // Symboles des devises
         const currencySymbols = {
             USD: '$',
@@ -46,7 +41,11 @@
             AUD: 'A$',
             CAD: 'C$'
         };
-        
+
+        // Mettre à jour les éléments HTML avec les informations de base
+        document.getElementById('location-name-country').textContent = `${name}, ${country}`;
+        document.getElementById('location-description').textContent = `${description}`;
+
         // Récupérer les taux de change via l'API
         async function fetchExchangeRate() {
             try {
@@ -63,21 +62,22 @@
                 return null;
             }
         }
-        
-            // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
+
+        // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
+        async function displayConvertedPrice() {
             const rates = await fetchExchangeRate();
             let priceText = '';
-        
+
             if (rates) {
                 const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
                     const convertedPrice = (price * conversionRate).toFixed(2);
-        
+
                     // Si la devise d'origine est EUR, ne pas afficher les parenthèses
                     if (currency === 'EUR') {
                         priceText = `Prix : ${convertedPrice}€`;  // Pas de parenthèses pour l'euro
                     } else {
-                        priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
+                        priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`;
                     }
                 } else {
                     // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
@@ -87,14 +87,14 @@
                 // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
                 priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
             }
-        
+
             // Affichage du texte même si une erreur survient
             document.getElementById('location-price').textContent = priceText;
         }
-        
+
         // Appeler la fonction pour afficher le prix converti ou original
         displayConvertedPrice();
-        
     </script>
 </body>
+
 </html>
