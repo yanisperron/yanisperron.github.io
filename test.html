@@ -1,12 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
+<style>
+        /* Style global du pop-up */
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+
+        .popup {
+            width: 400px;
+            height: 600px;
+            background-color: #f7f7f7;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .popup h1 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        .popup p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .popup img {
+            margin-top: 10px;
+            max-width: 100%;
+            border-radius: 8px;
+        }
+</style>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informations de la localisation</title>
 </head>
 <body>
-    <div>
+    <div class="popup">
         <p id="location-name-country">Nom, Pays : </p>
         <p id="location-description">Description : </p>
         <p id="location-price">Prix : </p>
