@@ -7,8 +7,9 @@
 </head>
 <body>
     <div>
-        <p id="location-name">Nom : </p>
+        <p id="location-name-country">Nom, Pays : </p>
         <p id="location-description">Description : </p>
+        <p id="location-price">Prix : </p>
     </div>
 
     <script>
@@ -18,9 +19,58 @@
             return params.get(name) || '';
         }
 
-        // Remplir les données à partir des paramètres d'URL
-        document.getElementById('location-name').textContent = 'Nom : ' + getURLParameter('name');
-        document.getElementById('location-description').textContent = 'Description : ' + getURLParameter('description');
+        // Récupérer les données des paramètres
+        const name = getURLParameter('name');
+        const country = getURLParameter('pays');
+        const description = getURLParameter('description');
+        const price = parseFloat(getURLParameter('prix')) || 0;
+        const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+
+        // Clé API ExchangeRate-API (remplacez par votre propre clé)
+        const apiKey = 'bf17fdfcdaf5d76106450067';
+        const apiUrl = `https://v6.exchangerate-api.com/v6/${apiKey}/latest/EUR`;
+
+        // Mettre à jour les éléments HTML avec les informations de base
+        document.getElementById('location-name-country').textContent = `Nom, Pays : ${name}, ${country}`;
+        document.getElementById('location-description').textContent = `Description : ${description}`;
+
+        // Récupérer les taux de change via l'API
+        async function fetchExchangeRate() {
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+                if (data.result === 'success') {
+                    return data.conversion_rates;
+                } else {
+                    console.error('Erreur API ExchangeRate-API:', data);
+                    return null;
+                }
+            } catch (error) {
+                console.error('Erreur lors de la récupération des taux de change:', error);
+                return null;
+            }
+        }
+
+        // Afficher le prix avec conversion si nécessaire
+        async function displayPrice() {
+            const rates = await fetchExchangeRate();
+            if (rates && currency !== 'EUR') {
+                const conversionRate = rates[currency];
+                if (conversionRate) {
+                    const convertedPrice = (price / conversionRate).toFixed(2);
+                    document.getElementById('location-price').textContent = `Prix : ${convertedPrice}${currency}`;
+                } else {
+                    document.getElementById('location-price').textContent = `Prix : Conversion indisponible pour ${currency}`;
+                }
+            } else if (currency === 'EUR') {
+                document.getElementById('location-price').textContent = `Prix : ${price.toFixed(2)}€`;
+            } else {
+                document.getElementById('location-price').textContent = `Prix : Conversion indisponible`;
+            }
+        }
+
+        // Appeler la fonction pour afficher le prix
+        displayPrice();
     </script>
 </body>
 </html>
