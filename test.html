@@ -73,11 +73,14 @@
                 if (conversionRate) {
                     const convertedPrice = (price * conversionRate).toFixed(2);
 
+                    // Vérifier si les décimales sont égales à 00 et les ignorer
+                    const displayPrice = parseFloat(convertedPrice) % 1 === 0 ? convertedPrice.split('.')[0] : convertedPrice;
+
                     // Si la devise d'origine est EUR, ne pas afficher les parenthèses
                     if (currency === 'EUR') {
-                        priceText = `Prix : ${convertedPrice}€`;  // Pas de parenthèses pour l'euro
+                        priceText = `Prix : ${displayPrice}€`;  // Pas de parenthèses pour l'euro
                     } else {
-                        priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`;
+                        priceText = `Prix : ${displayPrice}€ (${price} ${currencySymbols[currency] || currency})`;
                     }
                 } else {
                     // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
