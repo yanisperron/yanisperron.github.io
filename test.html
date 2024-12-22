@@ -49,6 +49,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informations de la localisation</title>
 </head>
+    
 <body>
     <div class="popup">
         <p id="location-name-country">Nom, Pays : </p>
@@ -105,26 +106,25 @@
             CAD: 'C$'
         };
 
-        // Afficher le prix avec conversion si nécessaire
-        async function displayPrice() {
+        // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
+        async function displayConvertedPrice() {
             const rates = await fetchExchangeRate();
             let priceText = '';
-
-            if (rates && currency !== 'EUR') {
-                const conversionRate = rates[currency];
+        
+            if (rates) {
+                const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
-                    const convertedPrice = (price / conversionRate).toFixed(2);
-                    const symbol = currencySymbols[currency] || currency;
-                    priceText = `Prix : ${convertedPrice}${symbol}`;
+                    const convertedPrice = (price * conversionRate).toFixed(2);
+                    priceText = `Prix : ${convertedPrice}€`; // Affichage en euros
                 } else {
-                    priceText = `Prix : Conversion indisponible pour ${currency}`;
+                    // En cas de problème avec le taux de conversion, afficher le prix dans sa devise originale
+                    priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
                 }
-            } else if (currency === 'EUR') {
-                const symbol = currencySymbols['EUR'];
-                priceText = `Prix : ${price.toFixed(2)}${symbol}`;
             } else {
-                priceText = `Prix : Conversion indisponible`;
+                // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale
+                priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
             }
+        
             document.getElementById('location-price').textContent = priceText;
         }
 
