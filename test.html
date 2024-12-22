@@ -117,11 +117,11 @@
                     const convertedPrice = (price * conversionRate).toFixed(2);
                     priceText = `Prix : ${convertedPrice}€`; // Affichage en euros
                 } else {
-                    // En cas de problème avec le taux de conversion, afficher le prix dans sa devise originale
+                    // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
                     priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
                 }
             } else {
-                // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale
+                // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
                 priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
             }
         
