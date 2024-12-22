@@ -7,8 +7,8 @@
 </head>
 <body>
     <div>
-        <h1 id="location-name">Nom de la localisation</h1>
-        <p id="location-description">Description de la localisation.</p>
+        <p id="location-name">Nom : </p>
+        <p id="location-description">Description : </p>
     </div>
 
     <script>
@@ -19,8 +19,8 @@
         }
 
         // Remplir les données à partir des paramètres d'URL
-        document.getElementById('location-name').textContent = getURLParameter('name');
-        document.getElementById('location-description').textContent = getURLParameter('description');
+        document.getElementById('location-name').textContent = 'Nom : ' + getURLParameter('name');
+        document.getElementById('location-description').textContent = 'Description : ' + getURLParameter('description');
     </script>
 </body>
 </html>
