@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informations de la localisation</title>
+</head>
+<body>
+    <div>
+        <h1 id="location-name">Nom de la localisation</h1>
+        <p id="location-description">Description de la localisation.</p>
+    </div>
+
+    <script>
+        // Fonction pour récupérer les paramètres de l'URL
+        function getURLParameter(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name) || '';
+        }
+
+        // Remplir les données à partir des paramètres d'URL
+        document.getElementById('location-name').textContent = getURLParameter('name');
+        document.getElementById('location-description').textContent = getURLParameter('description');
+    </script>
+</body>
+</html>
