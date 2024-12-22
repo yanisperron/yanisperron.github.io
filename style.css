@@ -1,0 +1,29 @@
+/* Global styles for the popup */
+.popup {
+    background-color: #f0f0f0; /* Fond gris clair */
+    border-radius: 10px; /* Coins arrondis */
+    padding: 20px;
+    width: 100%; /* Occupe toute la largeur du conteneur parent */
+    height: 100%; /* Occupe toute la hauteur du conteneur parent */
+    max-width: 400px; /* Limite la largeur maximale à 400px */
+    max-height: 600px; /* Limite la hauteur maximale à 600px */
+    box-sizing: border-box; /* Inclut le padding et les bordures dans la largeur et la hauteur totales */
+    overflow-y: auto; /* Permet le défilement vertical si le contenu est trop long */
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.popup h2,
+.popup p {
+    margin: 0 0 10px 0;
+}
+
+.popup h2 {
+    font-size: 1.5em;
+    color: #333;
+}
+
+.popup p {
+    font-size: 1.2em;
+    line-height: 1.4;
+}
