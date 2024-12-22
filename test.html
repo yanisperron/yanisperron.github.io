@@ -74,15 +74,15 @@
         async function displayConvertedPrice() {
             const rates = await fetchExchangeRate();
             let priceText = '';
-
+        
             if (rates) {
                 const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
-                    const convertedPrice = (price * conversionRate).toFixed(2);
-
-                    // Vérifier si les décimales sont égales à 00 et les ignorer
-                    const displayPrice = parseFloat(convertedPrice) % 1 === 0 ? convertedPrice.split('.')[0] : convertedPrice;
-
+                    const convertedPrice = price * conversionRate;  // Pas de toFixed ici, on veut garder la précision pour l'affichage
+                    
+                    // Vérifier si les décimales sont égales à 00
+                    const displayPrice = Number.isInteger(convertedPrice) ? convertedPrice.toFixed(0) : convertedPrice.toFixed(2);
+        
                     // Si la devise d'origine est EUR, ne pas afficher les parenthèses
                     if (currency === 'EUR') {
                         priceText = `${displayPrice}€`;  // Pas de parenthèses pour l'euro
@@ -97,10 +97,11 @@
                 // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
                 priceText = `${price}${currencySymbols[currency] || currency}`;
             }
-
+        
             // Affichage du texte même si une erreur survient
             document.getElementById('location-price').textContent = priceText;
         }
+
 
         // Appeler la fonction pour afficher le prix converti ou original
         displayConvertedPrice();
