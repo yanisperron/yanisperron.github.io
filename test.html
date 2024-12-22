@@ -64,25 +64,28 @@
             }
         }
         
-        // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
-        async function displayConvertedPrice() {
+            // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
             const rates = await fetchExchangeRate();
             let priceText = '';
         
             if (rates) {
                 const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
-            const convertedPrice = (price * conversionRate).toFixed(2);
-
-            // Si la devise d'origine est EUR, ne pas afficher les parenthèses
-            if (currency === 'EUR') {
-                priceText = `Prix : ${convertedPrice}€`;  // Pas de parenthèses pour l'euro
+                    const convertedPrice = (price * conversionRate).toFixed(2);
+        
+                    // Si la devise d'origine est EUR, ne pas afficher les parenthèses
+                    if (currency === 'EUR') {
+                        priceText = `Prix : ${convertedPrice}€`;  // Pas de parenthèses pour l'euro
+                    } else {
+                        priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
+                    }
+                } else {
+                    // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
+                    priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
+                }
             } else {
-                priceText = `Prix : ${convertedPrice}€ (${price} ${currencySymbols[currency] || currency})`; 
-            }
-        } else {
                 // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
-                priceText = `${price} ${currencySymbols[currency] || currency}`;
+                priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
             }
         
             // Affichage du texte même si une erreur survient
