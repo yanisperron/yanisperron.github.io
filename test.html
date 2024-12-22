@@ -1,26 +1,27 @@
 <!DOCTYPE html>
 <html lang="fr">
-<style>
+    <style>
         /* Style global du pop-up */
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
         }
 
         .popup {
-            width: 400px;
-            height: 600px;
+            width: 80%; /* Utilise 80% de la largeur de l'écran */
+            height: 80%; /* Utilise 80% de la hauteur de l'écran */
             background-color: #f7f7f7;
             border: 1px solid #ddd;
             padding: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            overflow-y: auto;
+            overflow-y: auto; /* Permet le défilement vertical si nécessaire */
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -41,7 +42,8 @@
             max-width: 100%;
             border-radius: 8px;
         }
-</style>
+    </style>
+        
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
