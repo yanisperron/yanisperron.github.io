@@ -79,6 +79,16 @@
         document.getElementById('location-name-country').textContent = `Nom, Pays : ${name}, ${country}`;
         document.getElementById('location-description').textContent = `Description : ${description}`;
 
+        // Symboles des devises
+        const currencySymbols = {
+            USD: '$',
+            GBP: '£',
+            EUR: '€',
+            JPY: '¥',
+            AUD: 'A$',
+            CAD: 'C$'
+        };
+        
         // Récupérer les taux de change via l'API
         async function fetchExchangeRate() {
             try {
@@ -95,17 +105,7 @@
                 return null;
             }
         }
-
-        // Symboles des devises
-        const currencySymbols = {
-            USD: '$',
-            GBP: '£',
-            EUR: '€',
-            JPY: '¥',
-            AUD: 'A$',
-            CAD: 'C$'
-        };
-
+        
         // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
         async function displayConvertedPrice() {
             const rates = await fetchExchangeRate();
@@ -125,11 +125,13 @@
                 priceText = `Prix : ${price} ${currencySymbols[currency] || currency}`;
             }
         
+            // Affichage du texte même si une erreur survient
             document.getElementById('location-price').textContent = priceText;
         }
-
-        // Appeler la fonction pour afficher le prix
-        displayPrice();
+        
+        // Appeler la fonction pour afficher le prix converti ou original
+        displayConvertedPrice();
+        
     </script>
 </body>
 </html>
