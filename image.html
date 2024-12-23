@@ -5,22 +5,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Intégration</title>
+    <style>
+        /* Style pour que l'image s'adapte à la largeur de l'écran */
+        #location-image {
+            width: 100%;
+            height: auto; /* Conserve les proportions de l'image */
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Image qui sera mise à jour dynamiquement en fonction de l'URL fournie -->
     <img id="location-image" src="" alt="Image" />
 
     <script>
         // Fonction pour récupérer les paramètres de l'URL
         function getURLParameter(name) {
             const params = new URLSearchParams(window.location.search);
-            return params.get(name) || '';
+            return params.get(name) || ''; // Retourne une chaîne vide si le paramètre n'est pas trouvé
         }
 
         // Récupérer l'URL de l'image depuis les paramètres
         const imageUrl = getURLParameter('image');
 
-        // Mettre à jour l'image si l'URL est présente
+        // Vérifie si une URL d'image est fournie et met à jour la source de l'image
         if (imageUrl) {
             document.getElementById('location-image').src = imageUrl;
         }
