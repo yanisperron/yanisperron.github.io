@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Intégration</title>
+</head>
+
+<body>
+    <img id="location-image" src="" alt="Image" />
+
+    <script>
+        // Fonction pour récupérer les paramètres de l'URL
+        function getURLParameter(name) {
+            const params = new URLSearchParams(window.location.search);
+            return params.get(name) || '';
+        }
+
+        // Récupérer l'URL de l'image depuis les paramètres
+        const imageUrl = getURLParameter('image');
+
+        // Mettre à jour l'image si l'URL est présente
+        if (imageUrl) {
+            document.getElementById('location-image').src = imageUrl;
+        }
+    </script>
+</body>
+
+</html>
