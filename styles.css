@@ -3,6 +3,10 @@ body {
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    width: auto;
+    height: auto; /* Hauteur s'ajuste au contenu */
+    min-height: 200vh; /* Prend au moins toute la hauteur de l'écran */
+    min-width: 200vw; /* Limite la largeur à 90% de l'écran */
     background-color: #414141;
     display: flex;
     justify-content: center;
@@ -10,13 +14,8 @@ body {
 }
 
 .popup {
-    width: 100%;
-    height: auto; /* Hauteur s'ajuste au contenu */
-    min-height: 200vh; /* Prend au moins toute la hauteur de l'écran */
-    max-width: 100%; /* Limite la largeur à 90% de l'écran */
     background-color: #f7f7f7;
     border-radius: 5px;
-    overflow-y: auto; /* Permet le défilement vertical si nécessaire */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
