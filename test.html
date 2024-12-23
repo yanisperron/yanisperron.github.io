@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             display: flex;
@@ -18,7 +19,7 @@
 
         .popup {
             width: 500px;
-            height: 500px;
+            height: 200px;
             background-color: #fff;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -49,14 +50,6 @@
             font-weight: bold;
             color: #333;
         }
-
-        #location-image {
-            flex-grow: 1;
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-            border-radius: 5px;
-        }
     </style>
 </head>
 
@@ -65,7 +58,6 @@
         <p id="location-name-country"></p>
         <p id="location-description"></p>
         <p id="location-price"></p>
-        <img id="location-image" src="" alt="Image" />
     </div>
 
     <script>
@@ -81,7 +73,6 @@
         const description = getURLParameter('description') || 'Pas de description.';
         const price = parseFloat(getURLParameter('prix')) || 0;
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
-        const imageUrl = getURLParameter('image');
 
         // Clé API ExchangeRate-API (remplacez par votre propre clé)
         const apiKey = 'bf17fdfcdaf5d76106450067';
@@ -99,11 +90,6 @@
         // Mettre à jour les éléments HTML avec les informations de base
         document.getElementById('location-name-country').textContent = `${name}, ${country}`;
         document.getElementById('location-description').textContent = `${description}`;
-
-        // Mettre à jour l'image du pop-up si l'URL de l'image est présente
-            if (imageUrl) {
-                document.getElementById('location-image').src = imageUrl;
-            }
 
         // Récupérer les taux de change via l'API
         async function fetchExchangeRate() {
@@ -130,32 +116,27 @@
             if (rates) {
                 const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
                 if (conversionRate) {
-                    const convertedPrice = price * conversionRate;  // Pas de toFixed ici, on veut garder la précision pour l'affichage
+                    const convertedPrice = price * conversionRate;
 
                     // Vérifier si les décimales sont égales à 00
                     const displayPrice = Number.isInteger(convertedPrice) ? convertedPrice.toFixed(0) : convertedPrice.toFixed(2);
 
                     // Si la devise d'origine est EUR, ne pas afficher les parenthèses
                     if (currency === 'EUR') {
-                        priceText = `${displayPrice}€`;  // Pas de parenthèses pour l'euro
+                        priceText = `${displayPrice}€`;
                     } else {
                         priceText = `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
                     }
                 } else {
-                    // Si la conversion échoue, afficher le prix dans sa devise originale avec symbole
                     priceText = `${price}${currencySymbols[currency] || currency}`;
                 }
             } else {
-                // En cas d'erreur de récupération des taux de change, afficher le prix dans sa devise originale avec symbole
                 priceText = `${price}${currencySymbols[currency] || currency}`;
             }
 
-            // Affichage du texte même si une erreur survient
             document.getElementById('location-price').textContent = priceText;
         }
 
-
-        // Appeler la fonction pour afficher le prix converti ou original
         displayConvertedPrice();
     </script>
 </body>
