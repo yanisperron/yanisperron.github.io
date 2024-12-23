@@ -26,11 +26,15 @@
         }
 
         .text-container {
-            height: 190px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+            overflow: hidden;
             text-align: center;
+        }
+
+        .image-container {
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #location-name-country {
@@ -49,36 +53,50 @@
             color: #333;
         }
 
-        .image-container {
-            height: 280px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-
         #location-image {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;  /* L'image couvre tout le conteneur */
+            object-position: center;  /* L'image est centrée */
         }
     </style>
 </head>
 
 <body>
     <div class="popup">
-        <div class="text-container">
+        <div class="text-container" id="text-container">
             <p id="location-name-country"></p>
             <p id="location-description"></p>
             <p id="location-price"></p>
         </div>
-        <div class="image-container">
+        <div class="image-container" id="image-container">
             <img id="location-image" src="" alt="Image" />
         </div>
     </div>
 
     <script>
-        // Fonctionnalité existante (inchangée)
+        function adjustLayout() {
+            const textContainer = document.getElementById("text-container");
+            const imageContainer = document.getElementById("image-container");
+
+            // Hauteur totale fixe
+            const totalHeight = 470;
+
+            // Hauteur actuelle du contenu texte
+            const textHeight = textContainer.scrollHeight;
+
+            // Limiter la hauteur du texte à un maximum de 75% de la hauteur totale
+            const maxTextHeight = totalHeight * 0.75;
+
+            // Déterminer la hauteur finale du conteneur de texte
+            const finalTextHeight = Math.min(textHeight, maxTextHeight);
+
+            // Définir les hauteurs dynamiquement
+            textContainer.style.height = `${finalTextHeight}px`;
+            imageContainer.style.height = `${totalHeight - finalTextHeight}px`;
+        }
+
+        // Fonction pour récupérer les paramètres de l'URL
         function getURLParameter(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name) || '';
@@ -102,7 +120,7 @@
         };
 
         document.getElementById('location-name-country').textContent = `${name}, ${country}`;
-        document.getElementById('location-description').textContent = `${description}`;
+        document.getElementById('location-description').textContent = description;
 
         if (imageUrl) {
             document.getElementById('location-image').src = imageUrl;
@@ -133,8 +151,8 @@
                 if (conversionRate) {
                     const convertedPrice = price * conversionRate;
                     const displayPrice = Number.isInteger(convertedPrice) ? convertedPrice.toFixed(0) : convertedPrice.toFixed(2);
-                    priceText = currency === 'EUR' 
-                        ? `${displayPrice}€` 
+                    priceText = currency === 'EUR'
+                        ? `${displayPrice}€`
                         : `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
                 } else {
                     priceText = `${price}${currencySymbols[currency] || currency}`;
@@ -146,7 +164,13 @@
             document.getElementById('location-price').textContent = priceText;
         }
 
-        displayConvertedPrice();
+        // Une fois les prix et les descriptions chargés, ajuster la mise en page
+        displayConvertedPrice().then(() => {
+            adjustLayout();
+        });
+
+        // Réajuster la mise en page en cas de redimensionnement de la fenêtre (responsive)
+        window.addEventListener('resize', adjustLayout);
     </script>
 </body>
 
