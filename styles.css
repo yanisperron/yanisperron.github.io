@@ -5,8 +5,6 @@ body {
     padding: 0;
     width: auto;
     height: auto; /* Hauteur s'ajuste au contenu */
-    min-height: 200vh; /* Prend au moins toute la hauteur de l'écran */
-    min-width: 200vw; /* Limite la largeur à 90% de l'écran */
     background-color: #414141;
     display: flex;
     justify-content: center;
