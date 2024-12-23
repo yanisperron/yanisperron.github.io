@@ -7,13 +7,15 @@
     <title>Popup</title>
     <style>
         body {
-            width: 500px;
+            width: 100%;
+            max-width: 500px;
+            min-width: 300px;
             height: 470px;
             margin: 0;
             padding: 0;
             display: flex;
             flex-direction: column;
-            background-color: #f5f5f5;
+            background-color: #ffffff;
             font-family: Arial, sans-serif;
             overflow: hidden;
         }
@@ -56,8 +58,8 @@
         #location-image {
             width: 100%;
             height: 100%;
-            object-fit: cover;  /* L'image couvre tout le conteneur */
-            object-position: center;  /* L'image est centrée */
+            object-fit: cover;
+            object-position: center;
         }
     </style>
 </head>
@@ -78,25 +80,15 @@
         function adjustLayout() {
             const textContainer = document.getElementById("text-container");
             const imageContainer = document.getElementById("image-container");
-
-            // Hauteur totale fixe
             const totalHeight = 470;
-
-            // Hauteur actuelle du contenu texte
             const textHeight = textContainer.scrollHeight;
-
-            // Limiter la hauteur du texte à un maximum de 75% de la hauteur totale
             const maxTextHeight = totalHeight * 0.75;
-
-            // Déterminer la hauteur finale du conteneur de texte
             const finalTextHeight = Math.min(textHeight, maxTextHeight);
 
-            // Définir les hauteurs dynamiquement
             textContainer.style.height = `${finalTextHeight}px`;
             imageContainer.style.height = `${totalHeight - finalTextHeight}px`;
         }
 
-        // Fonction pour récupérer les paramètres de l'URL
         function getURLParameter(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name) || '';
@@ -105,7 +97,7 @@
         const name = getURLParameter('name') || 'Nom non spécifié';
         const country = getURLParameter('pays') || 'Pays non spécifié';
         const description = getURLParameter('description') || 'Pas de description.';
-        const price = parseFloat(getURLParameter('prix')) || 0;
+        const price = getURLParameter('prix') || '0'; // Valeur par défaut '0' si non défini
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
         const imageUrl = getURLParameter('image');
 
@@ -146,30 +138,34 @@
             const rates = await fetchExchangeRate();
             let priceText = '';
 
+            // Remplace la virgule par un point pour effectuer les calculs
+            const numericPrice = parseFloat(price.toString().replace(',', '.'));
+
             if (rates) {
                 const conversionRate = rates['EUR'];
                 if (conversionRate) {
-                    const convertedPrice = price * conversionRate;
-                    const displayPrice = Number.isInteger(convertedPrice) ? convertedPrice.toFixed(0) : convertedPrice.toFixed(2);
+                    const convertedPrice = numericPrice * conversionRate;
+                    // Remplace le point par la virgule dans le prix affiché
+                    const displayPrice = Number.isInteger(convertedPrice)
+                        ? convertedPrice.toFixed(0)
+                        : convertedPrice.toFixed(2).replace('.', ','); // Conversion du point en virgule pour l'affichage
                     priceText = currency === 'EUR'
                         ? `${displayPrice}€`
-                        : `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
+                        : `${displayPrice}€ (${numericPrice}${currencySymbols[currency] || currency})`;
                 } else {
-                    priceText = `${price}${currencySymbols[currency] || currency}`;
+                    priceText = `${numericPrice}${currencySymbols[currency] || currency}`;
                 }
             } else {
-                priceText = `${price}${currencySymbols[currency] || currency}`;
+                priceText = `${numericPrice}${currencySymbols[currency] || currency}`;
             }
 
             document.getElementById('location-price').textContent = priceText;
         }
 
-        // Une fois les prix et les descriptions chargés, ajuster la mise en page
         displayConvertedPrice().then(() => {
             adjustLayout();
         });
 
-        // Réajuster la mise en page en cas de redimensionnement de la fenêtre (responsive)
         window.addEventListener('resize', adjustLayout);
     </script>
 </body>
