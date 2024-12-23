@@ -6,131 +6,172 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Pinyon+Script&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Pinyon+Script&display=swap');
 
-        body {
-            width: 100%;
-            max-width: 500px;
-            min-width: 300px;
-            height: 470px;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            background-color: #ffffff;
-            font-family: 'Lato', sans-serif; /* Applique la police Lato */
-            overflow: hidden;
-        }
+    body {
+        width: 100%;
+        max-width: 500px;
+        min-width: 300px;
+        height: 470px;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        background-color: #ffffff;
+        font-family: 'Lato', sans-serif;
+        overflow: hidden;
+    }
 
-        .popup {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            height: 100%;
-        }
+    .popup {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+    }
 
-        .text-container {
-            overflow: auto;
-            text-align: center;
-            padding-top: 10px;
-            padding-right: 10px;
-            padding-left: 10px;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            flex-shrink: 0;
-            max-height: 100%;
-        }
+    .text-container {
+        overflow: auto;
+        text-align: center;
+        padding-top: 10px;
+        padding-right: 10px;
+        padding-left: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        flex-shrink: 0;
+        max-height: 100%;
+    }
 
-        #location-name-country {
-            font-size: 1.2rem;
-            font-weight: bold;
-            margin: 0;
-        }
+    #location-name-country {
+        font-size: 1.4rem;
+        font-weight: bold;
+        margin: 0;
+    }
 
-        #location-country {
-            font-size: 0.9rem;
-            font-weight: 400;
-            color: gray;
-            margin-top: 5px;
-        }
+    #location-country {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: gray;
+        margin-top: 5px;
+    }
 
-        #location-description {
-            font-size: 1rem;
-            color: #555;
-            margin: 5px 0;
-            white-space: normal;
-            word-wrap: break-word;
-        }
+    #location-description {
+        font-size: 1.2rem;
+        margin: 5px 0;
+        white-space: normal;
+        word-wrap: break-word;
+    }
 
-        #location-description .notes {
-            font-size: 1rem;
-            color: #888;  /* Gris */
-            font-style: italic;
-        }
+    #location-description .notes {
+        font-size: 1.2rem;
+        color: #888;
+        font-style: italic;
+    }
 
-        .navra {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            padding: 5px;
-            flex-shrink: 0;
-            margin-bottom: 10px;
-        }
+    .navra {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 10px;
+        padding: 5px;
+        flex-shrink: 0;
+        margin-bottom: 10px;
+    }
 
-        .navra div {
-            flex: 1;
-            padding: 10px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-        }
+    .navra button {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: white;
+        font-weight: bold;
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        margin: 0 5px;
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
 
-        .navra .price {
-            background-color: #4CAF50;
-        }
+    .navra button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
 
-        .navra .maps {
-            background-color: #2196F3;
-        }
+    .navra button .price-text {
+        font-weight: bold;
+    }
 
-        .navra .website {
-            background-color: #f44336;
-        }
+    .navra button .price-text .converted-price {
+        font-weight: normal;
+    }
 
-        .image-container {
-            flex-grow: 1;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+    .navra button .ticket-info {
+        font-size: 0.7rem;
+        font-weight: 400;
+        text-align: center;
+    }
 
-        #location-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-        }
+    .navra .maps,
+    .navra .website {
+        flex: 1;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 8px;
+        font-weight: bold;
+        padding: 10px;
+        margin: 0 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .navra .maps:hover,
+    .navra .website:hover {
+        transform: translateY(-2px);
+        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .image-container {
+        flex-grow: 1;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #location-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+    }
+</style>
     </style>
 </head>
 
 <body>
-    <div class="popup">
-        <div class="text-container" id="text-container">
-            <p id="location-name-country"></p>
-            <p id="location-country"></p>
-            <p id="location-description"></p> <!-- Description et notes combinés ici -->
-            <div class="navra">
-                <div class="price" id="navra-price"></div>
-                <div class="maps" id="navra-maps">Maps</div>
-                <div class="website" id="navra-website">Website</div>
-            </div>
-        </div>
-        <div class="image-container" id="image-container">
-            <img id="location-image" src="" alt="Image" />
-        </div>
-    </div>
+  <div class="popup">
+      <div class="text-container" id="text-container">
+          <p id="location-name-country"></p>
+          <p id="location-country"></p>
+          <p id="location-description"></p>
+          <div class="navra">
+              <button class="price" id="navra-price">
+                  <div class="price-text"></div>
+                  <div class="ticket-info"></div>
+              </button>
+              <div class="maps" id="navra-maps">Maps</div>
+              <div class="website" id="navra-website">Website</div>
+          </div>
+      </div>
+      <div class="image-container" id="image-container">
+          <img id="location-image" src="" alt="Image" />
+      </div>
+  </div>
 
     <script>
         function adjustLayout() {
@@ -155,10 +196,11 @@
         const name = getURLParameter('name') || 'Nom non spécifié';
         const country = getURLParameter('pays') || 'Pays non spécifié';
         const description = getURLParameter('description') || 'Pas de description.';
-        const notes = getURLParameter('notes') || '';  // Récupère les notes
+        const notes = getURLParameter('notes') || '';
         const price = getURLParameter('prix') || '0';
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
         const imageUrl = getURLParameter('image');
+        const ticket = getURLParameter('ticket');  // Récupération de la variable ticket
 
         const apiKey = 'bf17fdfcdaf5d76106450067';
         const currencySymbols = {
@@ -207,18 +249,36 @@
                     const displayPrice = Number.isInteger(convertedPrice)
                         ? convertedPrice.toFixed(0)
                         : convertedPrice.toFixed(2).replace('.', ',');
+
+                    // Gestion de l'affichage du prix original
+                    const originalPriceDisplay = Number.isInteger(numericPrice)
+                        ? numericPrice.toFixed(0)
+                        : numericPrice.toFixed(2).replace('.', ',');
+
                     priceText = currency === 'EUR'
-                        ? `${displayPrice}€`
-                        : `${displayPrice}€ (${numericPrice.toFixed(2).replace('.', ',')}${currencySymbols[currency] || currency})`;
+                        ? `<span class="price-text">${displayPrice}€</span>`
+                        : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
                 } else {
-                    priceText = `${numericPrice.toFixed(2).replace('.', ',')}${currencySymbols[currency] || currency}`;
+                    const originalPriceDisplay = Number.isInteger(numericPrice)
+                        ? numericPrice.toFixed(0)
+                        : numericPrice.toFixed(2).replace('.', ',');
+                    priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
                 }
             } else {
-                priceText = `${numericPrice.toFixed(2).replace('.', ',')}${currencySymbols[currency] || currency}`;
+                const originalPriceDisplay = Number.isInteger(numericPrice)
+                    ? numericPrice.toFixed(0)
+                    : numericPrice.toFixed(2).replace('.', ',');
+                priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
             }
 
-            document.getElementById('navra-price').textContent = priceText;
+            document.getElementById('navra-price').innerHTML = priceText;
+
+            if (ticket) {
+                const ticketText = `<div class="ticket-info">${ticket}</div>`;
+                document.getElementById('navra-price').innerHTML += ticketText;
+            }
         }
+
 
         displayConvertedPrice().then(() => {
             adjustLayout();
