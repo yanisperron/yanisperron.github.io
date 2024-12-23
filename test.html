@@ -5,44 +5,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
-    <link rel="stylesheet" href="styles.css">
     <style>
         body {
             width: 500px;
-            height: 200px;
+            height: 470px;
             margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            overflow: hidden;
         }
 
         .popup {
-            width: 100%;
-            height: 100%;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            box-sizing: border-box;
-            overflow: hidden;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            width: 100%;
+            height: 100%;
+        }
+
+        .text-container {
+            height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             text-align: center;
         }
 
         #location-name-country {
             font-size: 1.2rem;
             font-weight: bold;
-            margin: 0;
         }
 
         #location-description {
             font-size: 1rem;
-            margin: 10px 0;
             color: #555;
         }
 
@@ -51,34 +48,50 @@
             font-weight: bold;
             color: #333;
         }
+
+        .image-container {
+            height: 280px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        #location-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
     </style>
 </head>
 
 <body>
     <div class="popup">
-        <p id="location-name-country"></p>
-        <p id="location-description"></p>
-        <p id="location-price"></p>
+        <div class="text-container">
+            <p id="location-name-country"></p>
+            <p id="location-description"></p>
+            <p id="location-price"></p>
+        </div>
+        <div class="image-container">
+            <img id="location-image" src="" alt="Image" />
+        </div>
     </div>
 
     <script>
-        // Fonction pour récupérer les paramètres de l'URL
+        // Fonctionnalité existante (inchangée)
         function getURLParameter(name) {
             const params = new URLSearchParams(window.location.search);
             return params.get(name) || '';
         }
 
-        // Récupérer les données des paramètres
         const name = getURLParameter('name') || 'Nom non spécifié';
         const country = getURLParameter('pays') || 'Pays non spécifié';
         const description = getURLParameter('description') || 'Pas de description.';
         const price = parseFloat(getURLParameter('prix')) || 0;
         const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+        const imageUrl = getURLParameter('image');
 
-        // Clé API ExchangeRate-API (remplacez par votre propre clé)
         const apiKey = 'bf17fdfcdaf5d76106450067';
-
-        // Symboles des devises
         const currencySymbols = {
             USD: '$',
             GBP: '£',
@@ -88,11 +101,13 @@
             CAD: 'C$'
         };
 
-        // Mettre à jour les éléments HTML avec les informations de base
         document.getElementById('location-name-country').textContent = `${name}, ${country}`;
         document.getElementById('location-description').textContent = `${description}`;
 
-        // Récupérer les taux de change via l'API
+        if (imageUrl) {
+            document.getElementById('location-image').src = imageUrl;
+        }
+
         async function fetchExchangeRate() {
             try {
                 const response = await fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${currency}`);
@@ -109,25 +124,18 @@
             }
         }
 
-        // Afficher le prix converti en euros ou dans sa devise originale en cas d'erreur
         async function displayConvertedPrice() {
             const rates = await fetchExchangeRate();
             let priceText = '';
 
             if (rates) {
-                const conversionRate = rates['EUR'];  // Taux de conversion vers EUR
+                const conversionRate = rates['EUR'];
                 if (conversionRate) {
                     const convertedPrice = price * conversionRate;
-
-                    // Vérifier si les décimales sont égales à 00
                     const displayPrice = Number.isInteger(convertedPrice) ? convertedPrice.toFixed(0) : convertedPrice.toFixed(2);
-
-                    // Si la devise d'origine est EUR, ne pas afficher les parenthèses
-                    if (currency === 'EUR') {
-                        priceText = `${displayPrice}€`;
-                    } else {
-                        priceText = `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
-                    }
+                    priceText = currency === 'EUR' 
+                        ? `${displayPrice}€` 
+                        : `${displayPrice}€ (${price}${currencySymbols[currency] || currency})`;
                 } else {
                     priceText = `${price}${currencySymbols[currency] || currency}`;
                 }
