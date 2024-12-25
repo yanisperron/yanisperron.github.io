@@ -5,287 +5,418 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
+
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Pinyon+Script&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Pinyon+Script&display=swap');
 
-    body {
-        width: 100%;
-        max-width: 500px;
-        min-width: 300px;
-        height: 470px;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        background-color: #ffffff;
-        font-family: 'Lato', sans-serif;
-        overflow: hidden;
-    }
+        /* Styles pour le body */
+        body {
+            width: 100%;
+            max-width: 500px !important;
+            min-width: 300px;
+            height: 470px;
+            margin: 0 auto;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            background-color: #ffffff;
+            font-family: 'Lato', sans-serif;
+            overflow: hidden;
+        }
 
-    .popup {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        height: 100%;
-    }
+        /* Popup principale */
+        .popup {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+        }
 
-    .text-container {
-        overflow: auto;
-        text-align: center;
-        padding-top: 10px;
-        padding-right: 10px;
-        padding-left: 10px;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        flex-shrink: 0;
-        max-height: 100%;
-    }
+        /* Conteneur du texte */
+        .text-wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-grow: 1;
+            overflow: hidden; /* Empêche le débordement vertical */
+        }
 
-    #location-name-country {
-        font-size: 1.4rem;
-        font-weight: bold;
-        margin: 0;
-    }
+        /* Conteneur d'information fixe en haut */
+        .info-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            height: auto;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
 
-    #location-country {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: gray;
-        margin-top: 5px;
-    }
+        #location-name-country {
+            font-size: 1.4rem;
+            font-weight: bold;
+            margin: 0;
+        }
 
-    #location-description {
-        font-size: 1.2rem;
-        margin: 5px 0;
-        white-space: normal;
-        word-wrap: break-word;
-    }
+        #location-country {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: gray;
+            margin: 5px 0 7px 0;
+        }
 
-    #location-description .notes {
-        font-size: 1.2rem;
-        color: #888;
-        font-style: italic;
-    }
+        /* Conteneur du texte défilant */
+        .text-container {
+            overflow: visible;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            flex-shrink: 0;
+            max-height: 100%;
+        }
 
-    .navra {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
-        padding: 5px;
-        flex-shrink: 0;
-        margin-bottom: 10px;
-    }
+        #location-description {
+            font-size: 1.2rem;
+            margin: 0 0 5px 0;
+            white-space: normal;
+            word-wrap: break-word;
+            display: block;
+        }
 
-    .navra button {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: white;
-        font-weight: bold;
-        border: none;
-        border-radius: 8px;
-        padding: 10px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        margin: 0 5px;
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
+        #location-description .notes {
+            color: #888;
+            font-style: italic;
+            font-weight: 400;
+        }
 
-    .navra button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-    }
+        .navra {
+            display: flex;
+            justify-content: space-between;
+            padding: 7px 0;
+            position: relative;
+            bottom: 0;
+            flex-direction: row;
+            margin-top: 0;
+        }
 
-    .navra button .price-text {
-        font-weight: bold;
-    }
+        .price, .maps, .website {
+          display: flex;
+          flex: 1;
+          justify-content: center;
+          align-items: center;
+          background-color: white;
+          text-align: center;
+          border: none;
+          border-radius: 8px;
+          padding: 8px;
+          margin: 0 4px;
+          box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+          cursor: pointer;
+          transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-    .navra button .price-text .converted-price {
-        font-weight: normal;
-    }
+        .maps, .website {
+          font-weight: 500;
+          font-size: 1rem;
+        }
 
-    .navra button .ticket-info {
-        font-size: 0.7rem;
-        font-weight: 400;
-        text-align: center;
-    }
+        .price:hover, .maps:hover, .website:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
+        }
 
-    .navra .maps,
-    .navra .website {
-        flex: 1;
-        text-align: center;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 8px;
-        font-weight: bold;
-        padding: 10px;
-        margin: 0 5px;
-        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-        transition: transform 0.2s, box-shadow 0.2s;
-    }
+        .price {
+            flex-direction: column;
+            font-weight: bold;
+        }
 
-    .navra .maps:hover,
-    .navra .website:hover {
-        transform: translateY(-2px);
-        box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.2);
-    }
+        .converted-price {
+            font-weight: normal;
+        }
 
-    .image-container {
-        flex-grow: 1;
-        overflow: hidden;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
+        .ticket-info {
+            font-size: 0.7rem;
+            font-weight: 400;
+            text-align: center;
+        }
 
-    #location-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-    }
-</style>
+        .image-container {
+            flex-grow: 1;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #location-image {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        /* Bouton de toggle pour l'image */
+        .toggle-image-btn {
+            font-size: 0.8rem;
+            background-color: white;
+            font-weight: regular;
+            border: none;
+            border-radius: 8px;
+            padding: 5px 11px;
+            margin: 4px 0;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            align-self: center;
+            display: none;
+            position: relative;
+            z-index: 10;  /* Ajoutez un z-index pour le rendre plus visible */
+        }
+
+        .toggle-image-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        @media (max-width: 400px) {
+            #location-name-country {
+                font-size: 1.2rem;
+            }
+
+            #location-description {
+                font-size: 1rem;
+            }
+
+            .price{
+                font-size: 0.8rem !important;
+            }
+
+            .ticket-info {
+                font-size: 0.5rem !important;
+            }
+        }
+
     </style>
+
 </head>
 
 <body>
   <div class="popup">
-      <div class="text-container" id="text-container">
-          <p id="location-name-country"></p>
-          <p id="location-country"></p>
-          <p id="location-description"></p>
-          <div class="navra">
-              <button class="price" id="navra-price">
-                  <div class="price-text"></div>
-                  <div class="ticket-info"></div>
-              </button>
-              <div class="maps" id="navra-maps">Maps</div>
-              <div class="website" id="navra-website">Website</div>
+      <div class="text-wrapper">
+          <div class="info-container" id="info-container">
+              <p id="location-name-country"></p>
+              <p id="location-country"></p>
+          </div>
+          <div class="text-container" id="text-container">
+              <p id="location-description"></p>
+              <button class="toggle-image-btn" id="toggle-image">Lire la suite</button>
           </div>
       </div>
       <div class="image-container" id="image-container">
           <img id="location-image" src="" alt="Image" />
       </div>
+      <div class="navra" id="navra-container">
+          <button class="price" id="navra-price">
+              <div class="price-text"></div>
+              <div class="ticket-info"></div>
+          </button>
+          <button class="maps" id="navra-maps">Maps</button>
+          <button class="website" id="navra-website">Website</button>
+      </div>
   </div>
 
-    <script>
-        function adjustLayout() {
-            const textContainer = document.getElementById("text-container");
-            const imageContainer = document.getElementById("image-container");
-            const totalHeight = 470;
-            const navraHeight = document.querySelector(".navra").offsetHeight;
-            const maxTextHeight = totalHeight - navraHeight - 120;
-            const textHeight = textContainer.scrollHeight;
+  <script>
 
-            textContainer.style.maxHeight = `${maxTextHeight}px`;
-
-            const imageHeight = totalHeight - navraHeight - textContainer.offsetHeight - 10;
-            imageContainer.style.height = `${Math.max(imageHeight, 0)}px`;
-        }
-
-        function getURLParameter(name) {
-            const params = new URLSearchParams(window.location.search);
-            return params.get(name) || '';
-        }
-
-        const name = getURLParameter('name') || 'Nom non spécifié';
-        const country = getURLParameter('pays') || 'Pays non spécifié';
-        const description = getURLParameter('description') || 'Pas de description.';
-        const notes = getURLParameter('notes') || '';
-        const price = getURLParameter('prix') || '0';
-        const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
-        const imageUrl = getURLParameter('image');
-        const ticket = getURLParameter('ticket');  // Récupération de la variable ticket
-
-        const apiKey = 'bf17fdfcdaf5d76106450067';
-        const currencySymbols = {
-            USD: '$',
-            GBP: '£',
-            EUR: '€',
-            JPY: '¥',
-            AUD: 'A$',
-            CAD: 'C$'
-        };
-
-        document.getElementById('location-name-country').textContent = name;
-        document.getElementById('location-country').textContent = country;
-        document.getElementById('location-description').innerHTML = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
-
-        if (imageUrl) {
-            document.getElementById('location-image').src = imageUrl;
-        }
-
-        async function fetchExchangeRate() {
-            try {
-                const response = await fetch(`https://v6.exchangerate-api.com/v6/bf17fdfcdaf5d76106450067/latest/${currency}`);
-                const data = await response.json();
-                if (data.result === 'success') {
-                    return data.conversion_rates;
-                } else {
-                    console.error('Erreur API ExchangeRate-API:', data);
-                    return null;
-                }
-            } catch (error) {
-                console.error('Erreur lors de la récupération des taux de change:', error);
-                return null;
-            }
-        }
-
-        async function displayConvertedPrice() {
-            const rates = await fetchExchangeRate();
-            let priceText = '';
-
-            const numericPrice = parseFloat(price.toString().replace(',', '.'));
-
-            if (rates) {
-                const conversionRate = rates['EUR'];
-                if (conversionRate) {
-                    const convertedPrice = numericPrice * conversionRate;
-                    const displayPrice = Number.isInteger(convertedPrice)
-                        ? convertedPrice.toFixed(0)
-                        : convertedPrice.toFixed(2).replace('.', ',');
-
-                    // Gestion de l'affichage du prix original
-                    const originalPriceDisplay = Number.isInteger(numericPrice)
-                        ? numericPrice.toFixed(0)
-                        : numericPrice.toFixed(2).replace('.', ',');
-
-                    priceText = currency === 'EUR'
-                        ? `<span class="price-text">${displayPrice}€</span>`
-                        : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
-                } else {
-                    const originalPriceDisplay = Number.isInteger(numericPrice)
-                        ? numericPrice.toFixed(0)
-                        : numericPrice.toFixed(2).replace('.', ',');
-                    priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
-                }
-            } else {
-                const originalPriceDisplay = Number.isInteger(numericPrice)
-                    ? numericPrice.toFixed(0)
-                    : numericPrice.toFixed(2).replace('.', ',');
-                priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
-            }
-
-            document.getElementById('navra-price').innerHTML = priceText;
-
-            if (ticket) {
-                const ticketText = `<div class="ticket-info">${ticket}</div>`;
-                document.getElementById('navra-price').innerHTML += ticketText;
-            }
-        }
+  window.addEventListener('load', adjustLayout);
+  window.addEventListener('resize', adjustLayout);
 
 
-        displayConvertedPrice().then(() => {
-            adjustLayout();
-        });
+  function adjustLayout() {
+      const body = document.body; // Utiliser la hauteur du body
+      const textContainer = document.getElementById("text-container");
+      const imageContainer = document.getElementById("image-container");
+      const navraHeight = document.querySelector(".navra").offsetHeight;
+      const infoContainerHeight = document.getElementById("info-container").offsetHeight;
+      const minImageHeight = body.offsetHeight / 12; // Min hauteur de l'image en fonction de la hauteur du body
+      const maxTextHeight = body.offsetHeight - navraHeight - infoContainerHeight - minImageHeight - 10; // Calculer la hauteur du texte
 
-        window.addEventListener('resize', adjustLayout);
-    </script>
+      const textHeight = textContainer.scrollHeight;
+      textContainer.style.maxHeight = `${Math.min(textHeight, maxTextHeight)}px`;
+
+      const dynamicImageHeight = body.offsetHeight - navraHeight - textContainer.offsetHeight - infoContainerHeight - 10;
+      const imageHeight = Math.max(dynamicImageHeight, minImageHeight);
+
+      imageContainer.style.height = `${Math.max(imageHeight, 0)}px`; // Appliquer la hauteur calculée par rapport à body
+  }
+
+
+      function getURLParameter(name) {
+          const params = new URLSearchParams(window.location.search);
+          return params.get(name) || '';
+      }
+
+      const name = getURLParameter('name') || 'Nom non spécifié';
+      const region = getURLParameter('region');
+      const country = getURLParameter('pays') || 'Pays non spécifié';
+      const description = getURLParameter('description');
+      const notes = getURLParameter('notes') || '';
+      const price = getURLParameter('prix') || '0';
+      const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+      const imageUrl = getURLParameter('image');
+      const ticket = getURLParameter('ticket');
+      const maps = getURLParameter('maps') || '';
+      const website = getURLParameter('website') || '';
+
+
+
+      const apiKey = 'bf17fdfcdaf5d76106450067';
+      const currencySymbols = {
+          USD: '$',
+          GBP: '£',
+          EUR: '€',
+          JPY: '¥',
+          AUD: 'A$',
+          CAD: 'C$'
+      };
+
+      document.getElementById('location-name-country').textContent = name;
+      document.getElementById('location-country').textContent = region ? `${region}, ${country}` : country;
+
+      // Fusionner description et notes en un seul texte
+      const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
+
+      // Tronquer le texte complet à 200 caractères
+      const truncatedText = fullText.length > 200 ? fullText.slice(0, 200) + '...' : fullText;
+      document.getElementById('location-description').innerHTML = truncatedText;
+
+      // Afficher "Lire la suite" si le texte est trop long
+      if (fullText.length > 199) {
+          document.getElementById('toggle-image').style.display = 'inline-block';
+      }
+
+      if (imageUrl) {
+          document.getElementById('location-image').src = imageUrl;
+      }
+
+      async function fetchExchangeRate() {
+          try {
+              const response = await fetch(`https://v6.exchangerate-api.com/v6/bf17fdfcdaf5d76106450067/latest/${currency}`);
+              const data = await response.json();
+              if (data.result === 'success') {
+                  return data.conversion_rates;
+              } else {
+                  console.error('Erreur API ExchangeRate-API:', data);
+                  return null;
+              }
+          } catch (error) {
+              console.error('Erreur lors de la récupération des taux de change:', error);
+              return null;
+          }
+      }
+
+      async function displayConvertedPrice() {
+          const rates = await fetchExchangeRate();
+          let priceText = '';
+
+          const numericPrice = parseFloat(price.toString().replace(',', '.'));
+
+          if (rates) {
+              const conversionRate = rates['EUR'];
+              if (conversionRate) {
+                  const convertedPrice = numericPrice * conversionRate;
+                  const displayPrice = Number.isInteger(convertedPrice)
+                      ? convertedPrice.toFixed(0)
+                      : convertedPrice.toFixed(2).replace('.', ',');
+
+                  const originalPriceDisplay = Number.isInteger(numericPrice)
+                      ? numericPrice.toFixed(0)
+                      : numericPrice.toFixed(2).replace('.', ',');
+
+                  priceText = currency === 'EUR'
+                      ? `<span class="price-text">${displayPrice}€</span>`
+                      : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
+              } else {
+                  const originalPriceDisplay = Number.isInteger(numericPrice)
+                      ? numericPrice.toFixed(0)
+                      : numericPrice.toFixed(2).replace('.', ',');
+                  priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+              }
+          } else {
+              const originalPriceDisplay = Number.isInteger(numericPrice)
+                  ? numericPrice.toFixed(0)
+                  : numericPrice.toFixed(2).replace('.', ',');
+              priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+          }
+
+          document.getElementById('navra-price').innerHTML = priceText;
+
+          if (ticket) {
+              const ticketText = `<div class="ticket-info">${ticket}</div>`;
+              document.getElementById('navra-price').innerHTML += ticketText;
+          }
+      }
+
+      displayConvertedPrice().then(() => {
+          adjustLayout();
+      });
+
+      window.addEventListener('resize', adjustLayout);
+
+      document.getElementById("toggle-image").addEventListener("click", function () {
+          const imageContainer = document.getElementById("image-container");
+          const textWrapper = document.querySelector(".text-wrapper");
+          const descriptionElement = document.getElementById("location-description");
+
+          if (this.textContent === "Lire la suite") {
+              textWrapper.style.flexGrow = "2"; // Le texte occupe plus d'espace
+              imageContainer.style.flexGrow = "0.5"; // L'image occupe moins d'espace
+              descriptionElement.innerHTML = fullText; // Afficher la description complète
+              this.textContent = "Retour";
+          } else {
+              textWrapper.style.flexGrow = "1"; // Retour à l'état initial
+              imageContainer.style.flexGrow = "1"; // L'image reprend plus d'espace
+              descriptionElement.innerHTML = truncatedText; // Afficher la version tronquée
+              this.textContent = "Lire la suite";
+          }
+
+          adjustLayout(); // Ajuste les tailles dynamiquement
+      });
+
+      const mapsButton = document.getElementById('navra-maps');
+      const websiteButton = document.getElementById('navra-website');
+
+      if (!maps) {
+          mapsButton.disabled = true; // Désactive le bouton
+          mapsButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
+          mapsButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
+      } else {
+          // Ajouter un événement pour ouvrir l'URL de 'maps' dans une nouvelle fenêtre/onglet
+          mapsButton.addEventListener('click', function() {
+              window.open(maps, '_blank'); // Ouvre l'URL dans un nouvel onglet
+          });
+      }
+
+      if (!website) {
+          websiteButton.disabled = true; // Désactive le bouton
+          websiteButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
+          websiteButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
+      } else {
+          // Ajouter un événement pour ouvrir l'URL de 'website' dans une nouvelle fenêtre/onglet
+          websiteButton.addEventListener('click', function() {
+              window.open(website, '_blank'); // Ouvre l'URL dans un nouvel onglet
+          });
+      }
+
+
+      window.addEventListener('resize', adjustLayout);
+
+  </script>
+
+
 </body>
 
 </html>
