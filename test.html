@@ -5,9 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Popup</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900&family=Pinyon+Script&display=swap');
+        /* @import url('https://fonts.googleapis.com/icon?family=Material+Icons'); */
 
         /* Styles pour le body */
         body {
@@ -39,6 +42,7 @@
             justify-content: flex-start;
             flex-grow: 1;
             overflow: hidden; /* Empêche le débordement vertical */
+            padding-bottom: 4px;
         }
 
         /* Conteneur d'information fixe en haut */
@@ -80,7 +84,7 @@
         }
 
         #location-description {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             margin: 0 0 5px 0;
             white-space: normal;
             word-wrap: break-word;
@@ -96,7 +100,7 @@
         .navra {
             display: flex;
             justify-content: space-between;
-            padding: 7px 0;
+            padding: 9px 0;
             position: relative;
             bottom: 0;
             flex-direction: row;
@@ -124,7 +128,7 @@
           font-size: 1rem;
         }
 
-        .price:hover, .maps:hover, .website:hover {
+        .maps:hover, .website:hover {
             transform: translateY(-2px);
             box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.4);
         }
@@ -132,6 +136,10 @@
         .price {
             flex-direction: column;
             font-weight: bold;
+        }
+
+        .material-icons {
+            font-size: 25px; /* Taille de l'icône */
         }
 
         .converted-price {
@@ -159,7 +167,6 @@
             object-position: center;
         }
 
-        /* Bouton de toggle pour l'image */
         .toggle-image-btn {
             font-size: 0.8rem;
             background-color: white;
@@ -174,7 +181,7 @@
             align-self: center;
             display: none;
             position: relative;
-            z-index: 10;  /* Ajoutez un z-index pour le rendre plus visible */
+            z-index: 10;
         }
 
         .toggle-image-btn:hover {
@@ -188,7 +195,7 @@
             }
 
             #location-description {
-                font-size: 1rem;
+                font-size: 0.9rem;
             }
 
             .price{
@@ -224,8 +231,12 @@
               <div class="price-text"></div>
               <div class="ticket-info"></div>
           </button>
-          <button class="maps" id="navra-maps">Maps</button>
-          <button class="website" id="navra-website">Website</button>
+          <button class="maps" id="navra-maps">
+              <span class="material-icons">location_on</span>
+          </button>
+          <button class="website" id="navra-website">
+              <span class="material-icons">share</span>
+          </button>
       </div>
   </div>
 
@@ -264,7 +275,7 @@
       const country = getURLParameter('pays') || 'Pays non spécifié';
       const description = getURLParameter('description');
       const notes = getURLParameter('notes') || '';
-      const price = getURLParameter('prix') || '0';
+      const price = getURLParameter('prix');
       const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
       const imageUrl = getURLParameter('image');
       const ticket = getURLParameter('ticket');
@@ -290,11 +301,11 @@
       const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
 
       // Tronquer le texte complet à 200 caractères
-      const truncatedText = fullText.length > 200 ? fullText.slice(0, 200) + '...' : fullText;
+      const truncatedText = fullText.length > 250 ? fullText.slice(0, 250) + '...' : fullText;
       document.getElementById('location-description').innerHTML = truncatedText;
 
       // Afficher "Lire la suite" si le texte est trop long
-      if (fullText.length > 199) {
+      if (fullText.length > 249) {
           document.getElementById('toggle-image').style.display = 'inline-block';
       }
 
@@ -319,46 +330,61 @@
       }
 
       async function displayConvertedPrice() {
-          const rates = await fetchExchangeRate();
           let priceText = '';
 
-          const numericPrice = parseFloat(price.toString().replace(',', '.'));
+          // Vérifie si le prix est "0" (Gratuit)
+          if (price === '0') {
+              priceText = '<span class="price-text">Gratuit</span>';
+          }
+          // Vérifie si le prix est vide ou contient uniquement des espaces
+          else if (!price || price.trim() === '') {
+              priceText = '<span class="price-text">Prix inconnu</span>';
+          }
+          // Si un prix est défini, continue avec les conversions
+          else {
+              const rates = await fetchExchangeRate();
+              const numericPrice = parseFloat(price.toString().replace(',', '.'));
 
-          if (rates) {
-              const conversionRate = rates['EUR'];
-              if (conversionRate) {
-                  const convertedPrice = numericPrice * conversionRate;
-                  const displayPrice = Number.isInteger(convertedPrice)
-                      ? convertedPrice.toFixed(0)
-                      : convertedPrice.toFixed(2).replace('.', ',');
+              if (rates) {
+                  const conversionRate = rates['EUR'];
+                  if (conversionRate) {
+                      const convertedPrice = numericPrice * conversionRate;
+                      const displayPrice = Number.isInteger(convertedPrice)
+                          ? convertedPrice.toFixed(0)
+                          : convertedPrice.toFixed(2).replace('.', ',');
 
-                  const originalPriceDisplay = Number.isInteger(numericPrice)
-                      ? numericPrice.toFixed(0)
-                      : numericPrice.toFixed(2).replace('.', ',');
+                      const originalPriceDisplay = Number.isInteger(numericPrice)
+                          ? numericPrice.toFixed(0)
+                          : numericPrice.toFixed(2).replace('.', ',');
 
-                  priceText = currency === 'EUR'
-                      ? `<span class="price-text">${displayPrice}€</span>`
-                      : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
+                      priceText = currency === 'EUR'
+                          ? `<span class="price-text">${displayPrice}€</span>`
+                          : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
+                  } else {
+                      const originalPriceDisplay = Number.isInteger(numericPrice)
+                          ? numericPrice.toFixed(0)
+                          : numericPrice.toFixed(2).replace('.', ',');
+                      priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+                  }
               } else {
                   const originalPriceDisplay = Number.isInteger(numericPrice)
                       ? numericPrice.toFixed(0)
                       : numericPrice.toFixed(2).replace('.', ',');
                   priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
               }
-          } else {
-              const originalPriceDisplay = Number.isInteger(numericPrice)
-                  ? numericPrice.toFixed(0)
-                  : numericPrice.toFixed(2).replace('.', ',');
-              priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+
+              // Si le prix est supérieur à 0 et que le ticket est défini, afficher le ticket-info
+              if (numericPrice > 0 && ticket) {
+                  const ticketText = `<div class="ticket-info">${ticket}</div>`;
+                  priceText += ticketText; // Ajouter le ticket-info après le prix
+              }
           }
 
+          // Mettre à jour le contenu du prix
           document.getElementById('navra-price').innerHTML = priceText;
-
-          if (ticket) {
-              const ticketText = `<div class="ticket-info">${ticket}</div>`;
-              document.getElementById('navra-price').innerHTML += ticketText;
-          }
       }
+
+
 
       displayConvertedPrice().then(() => {
           adjustLayout();
