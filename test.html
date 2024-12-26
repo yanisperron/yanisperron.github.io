@@ -296,7 +296,8 @@
         return encodeURL(url);
     }
 
-    const encodedImage = setURL(imageUrl);
+    // Ne pas encoder l'URL de l'image, juste la garder telle quelle
+    const encodedImage = imageUrl;  // Utilisation de l'URL telle quelle sans encodage
 
     const apiKey = 'bf17fdfcdaf5d76106450067';
     const currencySymbols = {
@@ -323,8 +324,9 @@
         document.getElementById('toggle-image').style.display = 'inline-block';
     }
 
+    // Assigner l'image sans modification de l'URL
     if (encodedImage) {
-        document.getElementById('location-image').src = decodeURIComponent(encodedImage);
+        document.getElementById('location-image').src = encodedImage;
     }
 
     async function fetchExchangeRate() {
@@ -450,7 +452,6 @@
     }
 
     window.addEventListener('resize', adjustLayout);
-
   </script>
 
 
