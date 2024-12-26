@@ -241,206 +241,215 @@
   </div>
 
   <script>
+    window.addEventListener('load', adjustLayout);
+    window.addEventListener('resize', adjustLayout);
 
-  window.addEventListener('load', adjustLayout);
-  window.addEventListener('resize', adjustLayout);
+    function adjustLayout() {
+        const body = document.body; // Utiliser la hauteur du body
+        const textContainer = document.getElementById("text-container");
+        const imageContainer = document.getElementById("image-container");
+        const navraHeight = document.querySelector(".navra").offsetHeight;
+        const infoContainerHeight = document.getElementById("info-container").offsetHeight;
+        const minImageHeight = body.offsetHeight / 12; // Min hauteur de l'image en fonction de la hauteur du body
+        const maxTextHeight = body.offsetHeight - navraHeight - infoContainerHeight - minImageHeight - 10; // Calculer la hauteur du texte
 
+        const textHeight = textContainer.scrollHeight;
+        textContainer.style.maxHeight = `${Math.min(textHeight, maxTextHeight)}px`;
 
-  function adjustLayout() {
-      const body = document.body; // Utiliser la hauteur du body
-      const textContainer = document.getElementById("text-container");
-      const imageContainer = document.getElementById("image-container");
-      const navraHeight = document.querySelector(".navra").offsetHeight;
-      const infoContainerHeight = document.getElementById("info-container").offsetHeight;
-      const minImageHeight = body.offsetHeight / 12; // Min hauteur de l'image en fonction de la hauteur du body
-      const maxTextHeight = body.offsetHeight - navraHeight - infoContainerHeight - minImageHeight - 10; // Calculer la hauteur du texte
+        const dynamicImageHeight = body.offsetHeight - navraHeight - textContainer.offsetHeight - infoContainerHeight - 10;
+        const imageHeight = Math.max(dynamicImageHeight, minImageHeight);
 
-      const textHeight = textContainer.scrollHeight;
-      textContainer.style.maxHeight = `${Math.min(textHeight, maxTextHeight)}px`;
+        imageContainer.style.height = `${Math.max(imageHeight, 0)}px`; // Appliquer la hauteur calculée par rapport à body
+    }
 
-      const dynamicImageHeight = body.offsetHeight - navraHeight - textContainer.offsetHeight - infoContainerHeight - 10;
-      const imageHeight = Math.max(dynamicImageHeight, minImageHeight);
+    function getURLParameter(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name) || '';
+    }
 
-      imageContainer.style.height = `${Math.max(imageHeight, 0)}px`; // Appliquer la hauteur calculée par rapport à body
-  }
+    const name = getURLParameter('name') || 'Nom non spécifié';
+    const region = getURLParameter('region');
+    const country = getURLParameter('pays') || 'Pays non spécifié';
+    const description = getURLParameter('description');
+    const notes = getURLParameter('notes') || '';
+    const price = getURLParameter('prix');
+    const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+    const imageUrl = getURLParameter('image');
+    const ticket = getURLParameter('ticket');
+    const maps = getURLParameter('maps') || '';
+    const encodedMaps = encodeURIComponent(maps);
+    const website = getURLParameter('website') || '';
+    const encodedWebsite = encodeURIComponent(website);
 
+    // Double encodage pour les URL
+    function encodeURL(url) {
+        let firstEncoded = encodeURIComponent(url);
+        let secondEncoded = encodeURIComponent(firstEncoded);
+        return secondEncoded;
+    }
 
-      function getURLParameter(name) {
-          const params = new URLSearchParams(window.location.search);
-          return params.get(name) || '';
-      }
+    function setURL(url) {
+        if (/<.*?>/.test(url)) {
+            console.error('URL contains invalid characters');
+            return null;
+        }
+        return encodeURL(url);
+    }
 
-      const name = getURLParameter('name') || 'Nom non spécifié';
-      const region = getURLParameter('region');
-      const country = getURLParameter('pays') || 'Pays non spécifié';
-      const description = getURLParameter('description');
-      const notes = getURLParameter('notes') || '';
-      const price = getURLParameter('prix');
-      const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
-      const imageUrl = getURLParameter('image');
-      const ticket = getURLParameter('ticket');
-      const maps = getURLParameter('maps') || '';
-      const encodedMaps = encodeURIComponent(maps);
-      const website = getURLParameter('website') || '';
-      const encodedWebsite = encodeURIComponent(website);
+    const encodedImage = setURL(imageUrl);
 
+    const apiKey = 'bf17fdfcdaf5d76106450067';
+    const currencySymbols = {
+        USD: '$',
+        GBP: '£',
+        EUR: '€',
+        JPY: '¥',
+        AUD: 'A$',
+        CAD: 'C$'
+    };
 
+    document.getElementById('location-name-country').textContent = name;
+    document.getElementById('location-country').textContent = region ? `${region}, ${country}` : country;
 
-      const apiKey = 'bf17fdfcdaf5d76106450067';
-      const currencySymbols = {
-          USD: '$',
-          GBP: '£',
-          EUR: '€',
-          JPY: '¥',
-          AUD: 'A$',
-          CAD: 'C$'
-      };
+    // Fusionner description et notes en un seul texte
+    const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
 
-      document.getElementById('location-name-country').textContent = name;
-      document.getElementById('location-country').textContent = region ? `${region}, ${country}` : country;
+    // Tronquer le texte complet à 200 caractères
+    const truncatedText = fullText.length > 250 ? fullText.slice(0, 250) + '...' : fullText;
+    document.getElementById('location-description').innerHTML = truncatedText;
 
-      // Fusionner description et notes en un seul texte
-      const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
+    // Afficher "Lire la suite" si le texte est trop long
+    if (fullText.length > 249) {
+        document.getElementById('toggle-image').style.display = 'inline-block';
+    }
 
-      // Tronquer le texte complet à 200 caractères
-      const truncatedText = fullText.length > 250 ? fullText.slice(0, 250) + '...' : fullText;
-      document.getElementById('location-description').innerHTML = truncatedText;
+    if (encodedImage) {
+        document.getElementById('location-image').src = decodeURIComponent(encodedImage);
+    }
 
-      // Afficher "Lire la suite" si le texte est trop long
-      if (fullText.length > 249) {
-          document.getElementById('toggle-image').style.display = 'inline-block';
-      }
+    async function fetchExchangeRate() {
+        try {
+            const response = await fetch(`https://v6.exchangerate-api.com/v6/bf17fdfcdaf5d76106450067/latest/${currency}`);
+            const data = await response.json();
+            if (data.result === 'success') {
+                return data.conversion_rates;
+            } else {
+                console.error('Erreur API ExchangeRate-API:', data);
+                return null;
+            }
+        } catch (error) {
+            console.error('Erreur lors de la récupération des taux de change:', error);
+            return null;
+        }
+    }
 
-      if (imageUrl) {
-          document.getElementById('location-image').src = imageUrl;
-      }
+    async function displayConvertedPrice() {
+        let priceText = '';
 
-      async function fetchExchangeRate() {
-          try {
-              const response = await fetch(`https://v6.exchangerate-api.com/v6/bf17fdfcdaf5d76106450067/latest/${currency}`);
-              const data = await response.json();
-              if (data.result === 'success') {
-                  return data.conversion_rates;
-              } else {
-                  console.error('Erreur API ExchangeRate-API:', data);
-                  return null;
-              }
-          } catch (error) {
-              console.error('Erreur lors de la récupération des taux de change:', error);
-              return null;
-          }
-      }
+        // Vérifie si le prix est "0" (Gratuit)
+        if (price === '0') {
+            priceText = '<span class="price-text">Gratuit</span>';
+        }
+        // Vérifie si le prix est vide ou contient uniquement des espaces
+        else if (!price || price.trim() === '') {
+            priceText = '<span class="price-text">Prix inconnu</span>';
+        }
+        // Si un prix est défini, continue avec les conversions
+        else {
+            const rates = await fetchExchangeRate();
+            const numericPrice = parseFloat(price.toString().replace(',', '.'));
 
-      async function displayConvertedPrice() {
-          let priceText = '';
+            if (rates) {
+                const conversionRate = rates['EUR'];
+                if (conversionRate) {
+                    const convertedPrice = numericPrice * conversionRate;
+                    const displayPrice = Number.isInteger(convertedPrice)
+                        ? convertedPrice.toFixed(0)
+                        : convertedPrice.toFixed(2).replace('.', ',');
 
-          // Vérifie si le prix est "0" (Gratuit)
-          if (price === '0') {
-              priceText = '<span class="price-text">Gratuit</span>';
-          }
-          // Vérifie si le prix est vide ou contient uniquement des espaces
-          else if (!price || price.trim() === '') {
-              priceText = '<span class="price-text">Prix inconnu</span>';
-          }
-          // Si un prix est défini, continue avec les conversions
-          else {
-              const rates = await fetchExchangeRate();
-              const numericPrice = parseFloat(price.toString().replace(',', '.'));
+                    const originalPriceDisplay = Number.isInteger(numericPrice)
+                        ? numericPrice.toFixed(0)
+                        : numericPrice.toFixed(2).replace('.', ',');
 
-              if (rates) {
-                  const conversionRate = rates['EUR'];
-                  if (conversionRate) {
-                      const convertedPrice = numericPrice * conversionRate;
-                      const displayPrice = Number.isInteger(convertedPrice)
-                          ? convertedPrice.toFixed(0)
-                          : convertedPrice.toFixed(2).replace('.', ',');
+                    priceText = currency === 'EUR'
+                        ? `<span class="price-text">${displayPrice}€</span>`
+                        : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
+                } else {
+                    const originalPriceDisplay = Number.isInteger(numericPrice)
+                        ? numericPrice.toFixed(0)
+                        : numericPrice.toFixed(2).replace('.', ',');
+                    priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+                }
+            } else {
+                const originalPriceDisplay = Number.isInteger(numericPrice)
+                    ? numericPrice.toFixed(0)
+                    : numericPrice.toFixed(2).replace('.', ',');
+                priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
+            }
 
-                      const originalPriceDisplay = Number.isInteger(numericPrice)
-                          ? numericPrice.toFixed(0)
-                          : numericPrice.toFixed(2).replace('.', ',');
+            // Si le prix est supérieur à 0 et que le ticket est défini, afficher le ticket-info
+            if (numericPrice > 0 && ticket) {
+                const ticketText = `<div class="ticket-info">${ticket}</div>`;
+                priceText += ticketText; // Ajouter le ticket-info après le prix
+            }
+        }
 
-                      priceText = currency === 'EUR'
-                          ? `<span class="price-text">${displayPrice}€</span>`
-                          : `<span class="price-text">${displayPrice}€ <span class="converted-price">(${originalPriceDisplay}${currencySymbols[currency] || currency})</span></span>`;
-                  } else {
-                      const originalPriceDisplay = Number.isInteger(numericPrice)
-                          ? numericPrice.toFixed(0)
-                          : numericPrice.toFixed(2).replace('.', ',');
-                      priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
-                  }
-              } else {
-                  const originalPriceDisplay = Number.isInteger(numericPrice)
-                      ? numericPrice.toFixed(0)
-                      : numericPrice.toFixed(2).replace('.', ',');
-                  priceText = `<span class="price-text">${originalPriceDisplay}${currencySymbols[currency] || currency}</span>`;
-              }
+        // Mettre à jour le contenu du prix
+        document.getElementById('navra-price').innerHTML = priceText;
+    }
 
-              // Si le prix est supérieur à 0 et que le ticket est défini, afficher le ticket-info
-              if (numericPrice > 0 && ticket) {
-                  const ticketText = `<div class="ticket-info">${ticket}</div>`;
-                  priceText += ticketText; // Ajouter le ticket-info après le prix
-              }
-          }
+    displayConvertedPrice().then(() => {
+        adjustLayout();
+    });
 
-          // Mettre à jour le contenu du prix
-          document.getElementById('navra-price').innerHTML = priceText;
-      }
+    window.addEventListener('resize', adjustLayout);
 
+    document.getElementById("toggle-image").addEventListener("click", function () {
+        const imageContainer = document.getElementById("image-container");
+        const textWrapper = document.querySelector(".text-wrapper");
+        const descriptionElement = document.getElementById("location-description");
 
+        if (this.textContent === "Lire la suite") {
+            textWrapper.style.flexGrow = "2"; // Le texte occupe plus d'espace
+            imageContainer.style.flexGrow = "0.5"; // L'image occupe moins d'espace
+            descriptionElement.innerHTML = fullText; // Afficher la description complète
+            this.textContent = "Retour";
+        } else {
+            textWrapper.style.flexGrow = "1"; // Retour à l'état initial
+            imageContainer.style.flexGrow = "1"; // L'image reprend plus d'espace
+            descriptionElement.innerHTML = truncatedText; // Afficher la version tronquée
+            this.textContent = "Lire la suite";
+        }
 
-      displayConvertedPrice().then(() => {
-          adjustLayout();
-      });
+        adjustLayout(); // Ajuste les tailles dynamiquement
+    });
 
-      window.addEventListener('resize', adjustLayout);
+    const mapsButton = document.getElementById('navra-maps');
+    const websiteButton = document.getElementById('navra-website');
 
-      document.getElementById("toggle-image").addEventListener("click", function () {
-          const imageContainer = document.getElementById("image-container");
-          const textWrapper = document.querySelector(".text-wrapper");
-          const descriptionElement = document.getElementById("location-description");
+    if (!maps) {
+        mapsButton.disabled = true; // Désactive le bouton
+        mapsButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
+        mapsButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
+    } else {
+        // Ajouter un événement pour ouvrir l'URL de 'maps' dans une nouvelle fenêtre/onglet
+        mapsButton.addEventListener('click', function() {
+            window.open(decodeURIComponent(encodedMaps), '_blank');
+        });
+    }
 
-          if (this.textContent === "Lire la suite") {
-              textWrapper.style.flexGrow = "2"; // Le texte occupe plus d'espace
-              imageContainer.style.flexGrow = "0.5"; // L'image occupe moins d'espace
-              descriptionElement.innerHTML = fullText; // Afficher la description complète
-              this.textContent = "Retour";
-          } else {
-              textWrapper.style.flexGrow = "1"; // Retour à l'état initial
-              imageContainer.style.flexGrow = "1"; // L'image reprend plus d'espace
-              descriptionElement.innerHTML = truncatedText; // Afficher la version tronquée
-              this.textContent = "Lire la suite";
-          }
+    if (!website) {
+        websiteButton.disabled = true; // Désactive le bouton
+        websiteButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
+        websiteButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
+    } else {
+        // Ajouter un événement pour ouvrir l'URL de 'website' dans une nouvelle fenêtre/onglet
+        websiteButton.addEventListener('click', function() {
+            window.open(decodeURIComponent(encodedWebsite), '_blank');
+        });
+    }
 
-          adjustLayout(); // Ajuste les tailles dynamiquement
-      });
-
-      const mapsButton = document.getElementById('navra-maps');
-      const websiteButton = document.getElementById('navra-website');
-
-      if (!maps) {
-          mapsButton.disabled = true; // Désactive le bouton
-          mapsButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
-          mapsButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
-      } else {
-          // Ajouter un événement pour ouvrir l'URL de 'maps' dans une nouvelle fenêtre/onglet
-          mapsButton.addEventListener('click', function() {
-              window.open(decodeURIComponent(encodedMaps), '_blank');
-          });
-      }
-
-      if (!website) {
-          websiteButton.disabled = true; // Désactive le bouton
-          websiteButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
-          websiteButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
-      } else {
-          // Ajouter un événement pour ouvrir l'URL de 'website' dans une nouvelle fenêtre/onglet
-          websiteButton.addEventListener('click', function() {
-              window.open(decodeURIComponent(encodedWebsite), '_blank');
-          });
-      }
-
-
-      window.addEventListener('resize', adjustLayout);
+    window.addEventListener('resize', adjustLayout);
 
   </script>
 
