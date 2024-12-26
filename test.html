@@ -280,7 +280,9 @@
       const imageUrl = getURLParameter('image');
       const ticket = getURLParameter('ticket');
       const maps = getURLParameter('maps') || '';
+      const encodedMaps = encodeURIComponent(maps);
       const website = getURLParameter('website') || '';
+      const encodedWebsite = encodeURIComponent(website);
 
 
 
@@ -422,7 +424,7 @@
       } else {
           // Ajouter un événement pour ouvrir l'URL de 'maps' dans une nouvelle fenêtre/onglet
           mapsButton.addEventListener('click', function() {
-              window.open(maps, '_blank'); // Ouvre l'URL dans un nouvel onglet
+              window.open(decodeURIComponent(encodedMaps), '_blank');
           });
       }
 
@@ -433,7 +435,7 @@
       } else {
           // Ajouter un événement pour ouvrir l'URL de 'website' dans une nouvelle fenêtre/onglet
           websiteButton.addEventListener('click', function() {
-              window.open(website, '_blank'); // Ouvre l'URL dans un nouvel onglet
+              window.open(decodeURIComponent(encodedWebsite), '_blank');
           });
       }
 
