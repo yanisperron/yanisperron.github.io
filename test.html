@@ -207,7 +207,7 @@
   </div>
 
   <script>
-    window.addEventListener('load', adjustLayout);
+    window.addEventListener('DOMContentLoaded', adjustLayout);
     window.addEventListener('resize', adjustLayout);
 
     // Ajuster la taille de l'image par rapport au texte
@@ -216,16 +216,17 @@
             const textWrapper = document.getElementById("text-wrapper");
             const imageContainer = document.getElementById("image-container");
 
-            const textWrapperHeight = textWrapper.getBoundingClientRect().height;
-            const availableHeight = document.body.offsetHeight;
+            if (textWrapper && imageContainer) {
+                const textWrapperHeight = textWrapper.getBoundingClientRect().height;
+                const availableHeight = document.body.offsetHeight;
 
-            const imageHeight = Math.max(availableHeight - textWrapperHeight, 0);
-            imageContainer.style.height = `${imageHeight}px`;
-
-            console.log(`Adjusted layout: text-wrapper height = ${textWrapperHeight}px, image height = ${imageHeight}px`);
+                const imageHeight = Math.max(availableHeight - textWrapperHeight, 0);
+                if (imageContainer.style.height !== `${imageHeight}px`) {
+                    imageContainer.style.height = `${imageHeight}px`;
+                }
+            }
         });
     }
-
 
     // Réinitialiser les contenus dynamiques
     function resetContent() {
@@ -240,6 +241,25 @@
     function getURLParameter(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name) || '';
+    }
+
+    // Change l'interface si pas d'image
+    function handleImageDisplay(image) {
+        const imageContainer = document.getElementById('image-container');
+        const navraContainer = document.getElementById('navra-container');
+
+        if (!image) {
+            imageContainer.style.display = 'none';
+            document.body.style.height = 'auto';
+            navraContainer.style.backgroundColor = '#888';
+            navraContainer.style.position = 'relative';
+            navraContainer.style.marginTop = '5px';
+        } else {
+            imageContainer.style.display = 'block';
+            document.body.style.height = '470px';
+            navraContainer.style.position = 'absolute';
+            navraContainer.style.marginTop = '0';
+        }
     }
 
     // Inscrire les données dans les variables
@@ -260,19 +280,6 @@
     const encodedWebsite = encodeURIComponent(website);
     const layer = getURLParameter('layer') || '';
     const visited = getURLParameter('visited') || '';
-
-    // Change l'interface si pas d'image
-    if (!image) {
-        document.getElementById('image-container').style.display = 'none';
-        document.body.style.height = 'auto';
-        document.getElementById('navra-container').style.backgroundColor = 'saddlebrown';
-        document.getElementById('navra-container').style.position = 'relative';
-        document.getElementById('navra-container').style.marginTop = '5px';
-    } else {
-        document.body.style.height = '470px';
-        document.getElementById('navra-container').style.position = 'absolute';
-        document.getElementById('navra-container').style.marginTop = '0';
-    }
 
     // Définir les symboles pour les devises
     const currencySymbols = {
@@ -312,6 +319,10 @@
 
     resetContent();
 
+    handleImageDisplay(image);
+
+    setURL();
+
     document.getElementById('name').textContent = name;
     document.getElementById('original').textContent = original;
     document.getElementById('location').textContent = region ? `${region}, ${country}` : country;
@@ -324,6 +335,7 @@
         document.getElementById('description').innerHTML = fullText;
     });
 
+    // Récupèrer les taux de change de l'EUR
     async function fetchExchangeRate() {
         try {
             // Appel de la nouvelle API
@@ -336,6 +348,7 @@
         }
     }
 
+    // Affiche le prix si converti
     async function displayConvertedPrice() {
         let priceText = '';
 
@@ -408,14 +421,12 @@
         const data = buttonData[buttonId];
 
         if (!data) {
-            // Désactiver le bouton s'il n'y a pas de données
             button.disabled = true;
             button.style.backgroundColor = '#d4d4d4';
             button.style.color = '#999';
             button.style.cursor = 'not-allowed';
             button.classList.add('disabled');
         } else {
-            // Ajouter l'événement de clic pour ouvrir l'URL associée
             button.addEventListener('click', function () {
                 window.open(decodeURIComponent(data), '_blank');
             });
@@ -423,8 +434,10 @@
     });
 
 
-    window.addEventListener('load', adjustLayout);
+    // S'assurer que la mise en page est ajustée à la fin du chargement
+    window.addEventListener('DOMContentLoaded', adjustLayout);
     window.addEventListener('resize', adjustLayout);
+
 
   </script>
 
