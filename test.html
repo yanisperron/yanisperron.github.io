@@ -20,7 +20,7 @@
             width: 100%;
             max-width: 500px !important;
             min-width: 300px;
-            height: 470px;
+            height: auto;
             margin: 0 auto;
             padding: 0;
             display: flex;
@@ -31,7 +31,6 @@
             overflow: hidden;
         }
 
-        /* Popup principale */
         .popup {
             display: flex;
             flex-direction: column;
@@ -46,7 +45,6 @@
             padding: 0;
         }
 
-        /* Conteneur du texte */
         .text-wrapper {
             display: flex;
             flex-direction: column;
@@ -55,7 +53,6 @@
             padding-bottom: 4px;
         }
 
-        /* Conteneur d'information fixe en haut */
         .info-container {
             display: flex;
             flex-direction: column;
@@ -112,6 +109,7 @@
           gap: 10px;
           align-items: stretch;
           overflow: hidden;
+          border-radius: calc(var(--border-radius)*2);
         }
 
 
@@ -126,53 +124,55 @@
           box-sizing: border-box;
         }
 
-        .navra-maps,
-        .navra-website {
+        [class^="navra-button-"] {
           flex: 0 0 auto;
-          aspect-ratio: 1; /* Maintient le carré */
+          aspect-ratio: 1;
           font-weight: 500;
           font-size: 1rem;
           cursor: pointer;
           transition: transform 0.2s;
         }
 
-        .navra-maps:hover,
-        .navra-website:hover {
-            transform: translateY(-3px);
+        [class^="navra-button-"]:hover {
+          transform: translateY(-4px);
         }
 
-        .navra-price {
+        [class^="navra-button-"].disabled:hover {
+          transform: none;
+          cursor: not-allowed;
+        }
+
+        [class^="navra-info-"] {
           flex: 1;
           flex-direction: column;
           font-weight: bold;
+          text-align: center;
         }
 
         .converted-price {
-            font-weight: normal;
+          font-weight: normal;
         }
 
         .ticket-info {
-            font-size: 0.7rem;
-            font-weight: 400;
-            text-align: center;
+          font-size: 0.7rem;
+          font-weight: 400;
         }
 
         .image-container {
-            flex-grow: 1;
-            position: relative; /* Nécessaire pour le positionnement de la navra */
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: calc(var(--border-radius)*2);
+          flex-grow: 1;
+          position: relative;
+          overflow: hidden;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          border-radius: calc(var(--border-radius)*2);
         }
 
-
-        #location-image {
-            width: 110%;
-            height: 110%;
-            object-fit: cover;
-            object-position: center;
+        #image {
+          width: 110%;
+          height: 110%;
+          object-fit: cover;
+          object-position: center;
         }
 
     </style>
@@ -190,17 +190,17 @@
           </div>
       </div>
       <div class="image-container" id="image-container">
-          <img id="location-image" src="" alt="Image" />
+          <img id="image" src="" alt="Image" />
       </div>
       <div class="navra-container" id="navra-container">
-          <div class="navra-price" id="navra-price">
+          <div class="navra-info-price" id="navra-info-price">
               <div class="price-text"></div>
               <div class="ticket-info"></div>
           </div>
-          <div class="navra-maps" id="navra-maps">
+          <div class="navra-button-maps" id="navra-button-maps">
               <span class="material-icons-outlined">directions</span>
           </div>
-          <div class="navra-website" id="navra-website">
+          <div class="navra-button-website" id="navra-button-website">
               <span class="material-icons-outlined">language</span>
           </div>
       </div>
@@ -210,18 +210,33 @@
     window.addEventListener('load', adjustLayout);
     window.addEventListener('resize', adjustLayout);
 
+    // Ajuster la taille de l'image par rapport au texte
     function adjustLayout() {
-        const body = document.body;
-        const textWrapper = document.getElementById("text-wrapper");
-        const imageContainer = document.getElementById("image-container");
-        const availableHeight = body.offsetHeight;
-        const textWrapperHeight = textWrapper.offsetHeight;
+        requestAnimationFrame(() => {
+            const textWrapper = document.getElementById("text-wrapper");
+            const imageContainer = document.getElementById("image-container");
 
-        const imageHeight = Math.max(availableHeight - textWrapperHeight, 0);
+            const textWrapperHeight = textWrapper.getBoundingClientRect().height;
+            const availableHeight = document.body.offsetHeight;
 
-        imageContainer.style.height = `${imageHeight}px`;
+            const imageHeight = Math.max(availableHeight - textWrapperHeight, 0);
+            imageContainer.style.height = `${imageHeight}px`;
+
+            console.log(`Adjusted layout: text-wrapper height = ${textWrapperHeight}px, image height = ${imageHeight}px`);
+        });
     }
 
+
+    // Réinitialiser les contenus dynamiques
+    function resetContent() {
+        document.getElementById('name').textContent = '';
+        document.getElementById('original').textContent = '';
+        document.getElementById('location').textContent = '';
+        document.getElementById('description').innerHTML = '';
+        document.getElementById('navra-info-price').innerHTML = '';
+    }
+
+    // Récupérer les données de l'url
     function getURLParameter(name) {
         const params = new URLSearchParams(window.location.search);
         return params.get(name) || '';
@@ -245,6 +260,19 @@
     const encodedWebsite = encodeURIComponent(website);
     const layer = getURLParameter('layer') || '';
     const visited = getURLParameter('visited') || '';
+
+    // Change l'interface si pas d'image
+    if (!image) {
+        document.getElementById('image-container').style.display = 'none';
+        document.body.style.height = 'auto';
+        document.getElementById('navra-container').style.backgroundColor = 'saddlebrown';
+        document.getElementById('navra-container').style.position = 'relative';
+        document.getElementById('navra-container').style.marginTop = '5px';
+    } else {
+        document.body.style.height = '470px';
+        document.getElementById('navra-container').style.position = 'absolute';
+        document.getElementById('navra-container').style.marginTop = '0';
+    }
 
     // Définir les symboles pour les devises
     const currencySymbols = {
@@ -282,15 +310,19 @@
         return encodeURL(url);
     }
 
+    resetContent();
+
     document.getElementById('name').textContent = name;
     document.getElementById('original').textContent = original;
     document.getElementById('location').textContent = region ? `${region}, ${country}` : country;
-    document.getElementById('location-image').src = image;
+    document.getElementById('image').src = image;
 
     // Fusionner description et notes en un seul texte
     const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
 
-    document.getElementById('description').innerHTML = fullText;
+    requestAnimationFrame(() => {
+        document.getElementById('description').innerHTML = fullText;
+    });
 
     async function fetchExchangeRate() {
         try {
@@ -361,37 +393,35 @@
 
         console.log('Contenu final du prix:', priceText);
 
-        document.getElementById('navra-price').innerHTML = priceText;
+        document.getElementById('navra-info-price').innerHTML = priceText;
     }
 
     displayConvertedPrice().then(() => {
         adjustLayout();
     });
 
-    const mapsButton = document.getElementById('navra-maps');
-    const websiteButton = document.getElementById('navra-website');
+    const buttons = document.querySelectorAll('[id^="navra-button-"]');
+    const buttonData = {'navra-button-maps': maps,'navra-button-website': website};
 
-    if (!maps) {
-        mapsButton.disabled = true; // Désactive le bouton
-        mapsButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
-        mapsButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
-    } else {
-        // Ajouter un événement pour ouvrir l'URL de 'maps' dans une nouvelle fenêtre/onglet
-        mapsButton.addEventListener('click', function() {
-            window.open(decodeURIComponent(encodedMaps), '_blank');
-        });
-    }
+    buttons.forEach(button => {
+        const buttonId = button.id;
+        const data = buttonData[buttonId];
 
-    if (!website) {
-        websiteButton.disabled = true; // Désactive le bouton
-        websiteButton.style.backgroundColor = '#e0e0e0'; // Grise le bouton
-        websiteButton.style.cursor = 'not-allowed'; // Change le curseur pour indiquer qu'il est désactivé
-    } else {
-        // Ajouter un événement pour ouvrir l'URL de 'website' dans une nouvelle fenêtre/onglet
-        websiteButton.addEventListener('click', function() {
-            window.open(decodeURIComponent(encodedWebsite), '_blank');
-        });
-    }
+        if (!data) {
+            // Désactiver le bouton s'il n'y a pas de données
+            button.disabled = true;
+            button.style.backgroundColor = '#d4d4d4';
+            button.style.color = '#999';
+            button.style.cursor = 'not-allowed';
+            button.classList.add('disabled');
+        } else {
+            // Ajouter l'événement de clic pour ouvrir l'URL associée
+            button.addEventListener('click', function () {
+                window.open(decodeURIComponent(data), '_blank');
+            });
+        }
+    });
+
 
     window.addEventListener('load', adjustLayout);
     window.addEventListener('resize', adjustLayout);
