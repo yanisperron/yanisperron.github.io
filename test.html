@@ -21,6 +21,7 @@
             max-width: 500px !important;
             min-width: 300px;
             height: auto;
+            max-height: 470px;
             margin: 0 auto;
             padding: 0;
             display: flex;
@@ -64,6 +65,7 @@
             margin: 0;
             padding: 0;
             text-align: center;
+            box-sizing: border-box;
         }
 
         #name {
@@ -214,16 +216,24 @@
     function adjustLayout() {
         requestAnimationFrame(() => {
             const textWrapper = document.getElementById("text-wrapper");
+            const infoContainer = document.getElementById("info-container");
             const imageContainer = document.getElementById("image-container");
+            const body = document.body;
 
             if (textWrapper && imageContainer) {
-                const textWrapperHeight = textWrapper.getBoundingClientRect().height;
-                const availableHeight = document.body.offsetHeight;
+                const infoContainerHeight = infoContainer.getBoundingClientRect().height;
+                const availableHeight = body.offsetHeight - infoContainerHeight;
 
-                const imageHeight = Math.max(availableHeight - textWrapperHeight, 0);
-                if (imageContainer.style.height !== `${imageHeight}px`) {
-                    imageContainer.style.height = `${imageHeight}px`;
-                }
+                imageContainer.style.height = `${Math.max(availableHeight, 0)}px`;
+                textWrapper.style.flexGrow = "0";
+                textWrapper.style.height = `${infoContainerHeight}px`;
+
+                console.log({
+                    infoContainerHeight,
+                    availableHeight,
+                    bodyHeight: body.offsetHeight,
+                    imageContainerHeight: imageContainer.style.height,
+                });
             }
         });
     }
@@ -281,6 +291,9 @@
     const layer = getURLParameter('layer') || '';
     const visited = getURLParameter('visited') || '';
 
+    // Fusionner description et notes en un seul texte
+    const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
+
     // Définir les symboles pour les devises
     const currencySymbols = {
         USD: '$',
@@ -327,9 +340,6 @@
     document.getElementById('original').textContent = original;
     document.getElementById('location').textContent = region ? `${region}, ${country}` : country;
     document.getElementById('image').src = image;
-
-    // Fusionner description et notes en un seul texte
-    const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
 
     requestAnimationFrame(() => {
         document.getElementById('description').innerHTML = fullText;
@@ -432,7 +442,6 @@
             });
         }
     });
-
 
     // S'assurer que la mise en page est ajustée à la fin du chargement
     window.addEventListener('DOMContentLoaded', adjustLayout);
