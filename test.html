@@ -272,6 +272,16 @@
         }
     }
 
+    // Fonction pour récupérer la devise à partir du pays
+    function getCurrencyForCountry(country) {
+        for (const [currency, countries] of Object.entries(currencyGroups)) {
+            if (countries.includes(country)) {
+                return currency;
+            }
+        }
+        return "EUR"; // Devise par défaut
+    }
+
     // Inscrire les données dans les variables
     const name = getURLParameter('name') || 'Nom non spécifié';
     const original = getURLParameter('original') || '';
@@ -280,7 +290,7 @@
     const description = getURLParameter('description') || '';
     const notes = getURLParameter('notes') || '';
     const price = getURLParameter('prix') || '';
-    const currency = getURLParameter('devise')?.toUpperCase() || 'EUR';
+    let currency = getURLParameter('devise')?.toUpperCase() || '';
     const image = getURLParameter('image') || '';
     const encodedImage = encodeURIComponent(image);
     const ticket = getURLParameter('ticket') || '';
@@ -301,8 +311,24 @@
         EUR: '€',
         JPY: '¥',
         AUD: 'A$',
-        CAD: 'C$'
+        CAD: 'C$',
+        ISK: ' kr',
     };
+
+    // Table de correspondance pays => devise
+    const currencyGroups = {
+        "EUR": ["France", "Irlande", "Allemagne", "Espagne", "Italie", "Portugal", "Grèce", "Belgique", "Pays-Bas", "Autriche"],
+        "USD": ["États-Unis", "Porto Rico"],
+        "GBP": ["Royaume-Uni", "Irlande du Nord"],
+        "ISK": ["Islande"],
+        // Ajoutez d'autres devises et leurs pays ici
+    };
+
+    // Définir la devise si non spécifiée
+    if (!currency || currency.trim() === '') {
+        currency = getCurrencyForCountry(country);
+        console.log(`Aucune devise spécifiée, utilisation de la devise par défaut pour le pays ${country}: ${currency}`);
+    }
 
     // Enregistrer les données dans la console
     console.log('nom:', name);
