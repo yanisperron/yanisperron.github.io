@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Popup</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+  <div class="popup">
+      <div class="text-wrapper" id="text-wrapper">
+          <div class="info-container" id="info-container">
+              <p id="name"></p>
+              <p id="original"></p>
+              <p id="location"></p>
+              <p id="description"></p>
+          </div>
+      </div>
+      <div class="image-container" id="image-container">
+          <img id="image" src="" alt="Image" />
+      </div>
+      <div class="navra-container" id="navra-container">
+          <div class="navra-info-price" id="navra-info-price">
+              <div class="price-text"></div>
+              <div class="ticket-info"></div>
+          </div>
+          <div class="navra-info-length" id="navra-info-length">
+              <p id="length"></p>
+          </div>
+          <div class="navra-info-difficulty" id="navra-info-difficulty">
+              <p id="difficulty"></p>
+          </div>
+          <div class="navra-button-maps" id="navra-button-maps">
+              <span class="material-icons-outlined">directions</span>
+          </div>
+          <div class="navra-button-website" id="navra-button-website">
+              <span class="material-icons-outlined">language</span>
+          </div>
+      </div>
+  </div>
+
+  <script src="scripts/layout.js"></script>
+
+  <script>
+
+    // Récupérer les données de l'url
+    function getURLParameter(name) {
+        const params = new URLSearchParams(window.location.search);
+        return params.get(name) || '';
+    }
+
+    // Inscrire les données dans les variables
+    const name = getURLParameter('name') || 'Nom non spécifié';
+    const original = getURLParameter('original') || '';
+    const region = getURLParameter('region') || '';
+    const country = getURLParameter('pays') || 'Pays non spécifié';
+    const description = getURLParameter('description') || '';
+    const notes = getURLParameter('notes') || '';
+    const image = getURLParameter('image') || '';
+    const maps = getURLParameter('maps') || '';
+    const website = getURLParameter('website') || '';
+    const layer = getURLParameter('layer') || '';
+    const length = getURLParameter('longueur') || '';
+    const difficulty = getURLParameter('difficulte') || '';
+
+    // Fusionner description et notes en un seul texte
+    const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
+
+    // Enregistrer les données dans la console
+    console.log('nom:', name);
+    console.log('nom original:', original);
+    console.log('region:', region);
+    console.log('pays:', country);
+    console.log('image:', image);
+    console.log('description:', description);
+    console.log('notes:', notes);
+    console.log('calque:', layer);
+    console.log('longueur:', length)
+    console.log('difficulté:', difficulty)
+
+    document.getElementById('name').textContent = name;
+    document.getElementById('original').textContent = original;
+    document.getElementById('location').textContent = region ? `${region}, ${country}` : country;
+    document.getElementById('length').textContent = length ? `${length} km` : '';
+    document.getElementById('difficulty').textContent = difficulty;
+    document.getElementById('image').src = image;
+
+    requestAnimationFrame(() => {
+        document.getElementById('description').innerHTML = fullText;
+    });
+
+  </script>
+
+  <script src="scripts/button.js"></script>
+
+  <script src="scripts/encryptURLs.js"></script>
+
+  <script>
+
+  if (["Châteaux", "Édifices", "Musées", "Paysages", "Activités", "Chutes d'eau", "Piscines d'eau chaude"].includes(layer)) {
+
+    var script = document.createElement('script');
+    script.src = 'scripts/displayPrice.js';
+    var containerDiv = document.getElementById('navra-container');
+    containerDiv.appendChild(script);
+
+    document.querySelectorAll('.navra-info-length, .navra-info-difficulty').forEach(function(element) {
+        element.style.display = 'none';
+    });
+
+  } else if (["Randonnées"].includes(layer)) {
+
+      document.querySelectorAll('.navra-info-price').forEach(function(element) {
+          element.style.display = 'none';
+      });
+  } else if (["Routes et cols panoramiques"].includes(layer)) {
+
+      document.querySelectorAll('.navra-info-price, .navra-info-difficulty').forEach(function(element) {
+          element.style.display = 'none';
+      });
+  } else {
+
+      document.querySelectorAll('.navra-info-price, .navra-info-length, .navra-info-difficulty').forEach(function(element) {
+          element.style.display = 'none';
+      });
+      document.querySelectorAll('[class^="navra-button-"]').forEach(function(element) {
+          element.style.flex = '1'; // Permet aux boutons de s'étendre uniformément
+          element.style.aspectRatio = 'auto'; // Supprime l'aspect carré
+          element.style.margin = '0'; // Supprime les marges
+          element.style.width = 'auto'; // Laisse la largeur se gérer via flexbox
+      });
+  }
+
+  </script>
+
+  <script>
+
+    // S'assurer que la mise en page est ajustée à la fin du chargement
+    window.addEventListener('DOMContentLoaded', adjustLayout);
+    window.addEventListener('resize', adjustLayout);
+
+  </script>
+
+
+
+</body>
+
+</html>
