@@ -52,7 +52,6 @@ function handleImageDisplay(image) {
     }
 }
 
-// Ajuster la mise en page lorsque le DOM est chargé ou que la fenêtre est redimensionnée
 window.addEventListener('DOMContentLoaded', adjustLayout);
 window.addEventListener('resize', adjustLayout);
 
