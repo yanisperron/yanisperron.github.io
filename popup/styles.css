@@ -32,6 +32,10 @@ body {
     padding: 0;
 }
 
+#difficulty-icon {
+    font-size: 1.5rem;
+}
+
 .text-wrapper {
     display: flex;
     flex-direction: column;
@@ -141,12 +145,14 @@ body {
   font-weight: normal;
 }
 
-.ticket-info {
+.ticket-info, .duration-info, .difficulty-info {
   font-size: 0.7rem;
   font-weight: 400;
+  margin: 0;
+  padding: 0;
 }
 
-#length, #difficulty {
+#length, #duration, #difficulty {
   margin: 0;
   padding: 0;
 }
