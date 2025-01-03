@@ -119,8 +119,12 @@
     function formatDuration(minutes) {
         const hrs = Math.floor(minutes / 60); // Calcul des heures
         const mins = minutes % 60; // Calcul des minutes restantes
-        return `${hrs > 0 ? `${hrs}h` : ''}${mins > 0 ? `${mins}` : ''}`;
+        if (hrs > 0) {
+            return `${hrs}h${mins > 0 ? `${mins}` : ''}`; // Affiche l'heure et les minutes si nécessaire
+        }
+        return `${mins} min`; // Si moins d'une heure, affiche uniquement les minutes avec "min"
     }
+
 
     // Traduire la durée et l'afficher
     const duree = parseInt(getURLParameter('duree') || '0', 10); // Exemple : récupération de la durée
