@@ -64,8 +64,8 @@
     const maps = getURLParameter('maps') || '';
     const website = getURLParameter('website') || '';
     const layer = getURLParameter('layer') || '';
-    const length = getURLParameter('longueur') || '';
-    const difficulty = getURLParameter('difficulte') || '';
+    const length = getURLParameter('longueur') || 'Longueur non spécifiée';
+    const difficulty = getURLParameter('difficulte') || 'Difficulté non spécifiée';
 
     // Fusionner description et notes en un seul texte
     const fullText = description + (notes ? ' <span class="notes">' + notes + '</span>' : '');
@@ -86,8 +86,25 @@
     document.getElementById('original').textContent = original;
     document.getElementById('location').textContent = region ? `${region}, ${country}` : country;
     document.getElementById('length').textContent = length ? `${length} km` : '';
-    document.getElementById('difficulty').textContent = difficulty;
     document.getElementById('image').src = image;
+
+    // Fonction pour traduire la difficulté
+    function translateDifficulty(value) {
+        switch (parseInt(value, 10)) {
+            case 1:
+                return "Facile";
+            case 2:
+                return "Moyen";
+            case 3:
+                return "Expert";
+            default:
+                return "Difficulté non spécifiée";
+        }
+    }
+
+    // Traduire la difficulté et l'afficher
+    const translatedDifficulty = translateDifficulty(difficulty);
+    document.getElementById('difficulty').textContent = translatedDifficulty;
 
     requestAnimationFrame(() => {
         document.getElementById('description').innerHTML = fullText;
