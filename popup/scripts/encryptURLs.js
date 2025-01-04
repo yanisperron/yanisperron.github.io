@@ -1,3 +1,5 @@
+console.log("encryptURLs.js chargé avec succès");
+
 // Double encodage pour les URL
 function encodeURL(url) {
     let firstEncoded = encodeURIComponent(url);
