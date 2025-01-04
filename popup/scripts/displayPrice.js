@@ -119,3 +119,4 @@ if (!currency || currency.trim() === '') {
 displayConvertedPrice(price, currency, ticket).then(() => {
     adjustLayout();
 });
+//
