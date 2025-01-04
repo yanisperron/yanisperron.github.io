@@ -23,7 +23,7 @@ Object.entries(variableSelectorMap).forEach(([variable, selector]) => {
         // Si la difficulté n'est pas 1, 2, ou 3, on masque l'élément
         element.style.display = 'none';
       } else {
-        element.style.display = 'block'; // Affiche si la variable a une valeur
+        element.style.display = 'flex'; // Affiche si la variable a une valeur
         if (variable === 'prix') {
           shouldLoadDisplayPriceScript = true; // Indique que le prix est défini
         }
@@ -53,4 +53,3 @@ if (!visibleInfoElements) {
     element.style.width = 'auto'; // Laisse la largeur se gérer via flexbox
   });
 }
-//
