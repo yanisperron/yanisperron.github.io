@@ -53,3 +53,4 @@ if (!visibleInfoElements) {
     element.style.width = 'auto'; // Laisse la largeur se gérer via flexbox
   });
 }
+//
