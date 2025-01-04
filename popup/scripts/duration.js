@@ -14,3 +14,4 @@ function formatDuration(minutes) {
 const duree = parseInt(getURLParameter('duree') || '0', 10); // Exemple : récupération de la durée
 const formattedDuration = formatDuration(duree);
 document.getElementById('duration').textContent = formattedDuration || '';
+//
