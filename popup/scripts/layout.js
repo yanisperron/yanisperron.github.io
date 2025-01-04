@@ -1,21 +1,22 @@
-// Ajuster la taille de l'image et du texte pour adapter le layout
+console.log("layout.js chargé avec succès");
+
 function adjustLayout() {
     requestAnimationFrame(() => {
-        const textWrapper = document.getElementById("text-wrapper");
         const infoContainer = document.getElementById("info-container");
+        const infoWrapper = document.getElementById("info-wrapper");
         const imageContainer = document.getElementById("image-container");
         const body = document.body;
 
-        if (textWrapper && imageContainer) {
-            const infoContainerHeight = infoContainer.getBoundingClientRect().height;
-            const availableHeight = body.offsetHeight - infoContainerHeight;
+        if (infoContainer && imageContainer) {
+            const infoWrapperHeight = infoWrapper.getBoundingClientRect().height;
+            const availableHeight = body.offsetHeight - infoWrapperHeight;
 
             imageContainer.style.height = `${Math.max(availableHeight, 0)}px`;
-            textWrapper.style.flexGrow = "0";
-            textWrapper.style.height = `${infoContainerHeight}px`;
+            infoContainer.style.flexGrow = "0";
+            infoContainer.style.height = `${infoWrapperHeight}px`;
 
             console.log({
-                infoContainerHeight,
+                infoWrapperHeight,
                 availableHeight,
                 bodyHeight: body.offsetHeight,
                 imageContainerHeight: imageContainer.style.height,
