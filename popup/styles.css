@@ -1,15 +1,23 @@
+/* ------------- VAR ------------- */
+
 :root {
   --pad-radius: 10px;
 }
 
-body {
+/* ------------- BODY ------------- */
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
     width: 100%;
     max-width: 500px !important;
     min-width: 300px;
     height: auto;
     max-height: 470px;
     margin: 0 auto;
-    padding: 0;
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
@@ -26,17 +34,22 @@ body {
     position: relative;
 }
 
-.material-icons-outlined {
+.material-symbols-rounded {
     font-size: 2rem;
     margin:0;
     padding: 0;
+    font-variation-settings: 'wght' 600;
 }
 
 #difficulty-icon {
     font-size: 1.5rem;
+    padding: 0;
+    margin-bottom: 1px;
 }
 
-.text-wrapper {
+/* ------------- INFO ------------- */
+
+.info-container {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -44,7 +57,7 @@ body {
     padding-bottom: 4px;
 }
 
-.info-container {
+.info-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -90,6 +103,29 @@ body {
     font-weight: 400;
 }
 
+/* ------------- IMAGE ------------- */
+
+.image-container {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: calc(var(--pad-radius)*2);
+  width: 100%;
+  height: 100%;
+}
+
+#image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* ------------- NAVRA ------------- */
+
 .navra-container {
   display: flex;
   justify-content: space-between;
@@ -104,8 +140,7 @@ body {
   border-radius: calc(var(--pad-radius)*2);
 }
 
-
-[class^="navra-"]:not(.navra-container) {
+[class^="navra-"]:not(.navra-container, .navra-info-wrapper) {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -114,6 +149,24 @@ body {
   padding: 8px;
   background-color: #f7f7f7;
   box-sizing: border-box;
+}
+
+[class^="navra-info-"] {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  text-align: center;
+  background-color: #f7f7f7;
+  border-radius: var(--pad-radius);
+}
+
+.navra-info-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
 [class^="navra-button-"] {
@@ -134,44 +187,13 @@ body {
   cursor: not-allowed;
 }
 
-[class^="navra-info-"] {
-  flex: 1;
-  flex-direction: column;
-  font-weight: bold;
-  text-align: center;
-}
-
 .converted-price {
   font-weight: normal;
 }
 
-.ticket-info, .duration-info, .difficulty-info {
+.ticket-info, .duration-info, .difficulty-info, .cuisine-info {
   font-size: 0.7rem;
   font-weight: 400;
   margin: 0;
   padding: 0;
-}
-
-#length, #duration, #difficulty {
-  margin: 0;
-  padding: 0;
-}
-
-.image-container {
-  flex-grow: 1;
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: calc(var(--pad-radius)*2);
-  width: 100%;
-  height: 100%;
-}
-
-#image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center;
 }
