@@ -1,3 +1,5 @@
+console.log("button.js chargé avec succès");
+
 const buttons = document.querySelectorAll('[id^="navra-button-"]');
 const buttonData = {'navra-button-maps': maps,'navra-button-website': website};
 
