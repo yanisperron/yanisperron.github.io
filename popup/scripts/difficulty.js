@@ -22,3 +22,4 @@ const { icon, color } = getDifficultyIcon(difficulty);
 const difficultyIconElement = document.getElementById('difficulty-icon');
 difficultyIconElement.textContent = icon || "";
 difficultyIconElement.style.color = color || "";  // Applique la couleur en fonction de la difficulté
+//
