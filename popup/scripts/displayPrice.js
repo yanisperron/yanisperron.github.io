@@ -15,7 +15,7 @@ const currencySymbols = {
 const currencyGroups = {
     "EUR": ["France", "Irlande", "Allemagne", "Espagne", "Italie", "Portugal", "Grèce", "Belgique", "Pays-Bas", "Autriche"],
     "USD": ["États-Unis", "Porto Rico"],
-    "GBP": ["Royaume-Uni", "Irlande du Nord"],
+    "GBP": ["Royaume-Uni", "Irlande du Nord", "Angleterre", "Pays de Galles", "Écosse"],
     "ISK": ["Islande"],
 };
 
