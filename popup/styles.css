@@ -1,7 +1,51 @@
-/* ------------- VAR ------------ */
+/* ------------- VAR ------------- */
 
 :root {
   --pad-radius: 10px;
+}
+
+/* ------------- FONTS ------------- */
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-Regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-RegularItalic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-Medium.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-Mediumitalic.otf") format("opentype");
+    font-weight: 500;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "SanFrancisco";
+    src: url("fonts/SFProDisplay-Bolditalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
 }
 
 /* ------------- BODY ------------- */
@@ -21,9 +65,10 @@ html, body {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
-    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: SanFrancisco, -apple-system, BlinkMacSystemFont, sans-serif;
     font-weight: normal;
     overflow: hidden;
+    letter-spacing: 2%;
 }
 
 .popup {
@@ -72,21 +117,21 @@ html, body {
 }
 
 #name {
-  font-weight: bold;
-  font-size: 1.5rem;
-  margin: 0;
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin: 0;
 }
 
 #original {
-  font-size: 1.2rem;
-  font-style: italic;
-  margin: 0;
+    font-size: 1.2rem;
+    font-style: italic;
+    margin: 0;
 }
 
 #location {
-  font-size: 0.9rem;
-  color: gray;
-  margin: 5px 0 7px 0;
+    font-size: 0.9rem;
+    color: gray;
+    margin: 5px 0 7px 0;
 }
 
 #description {
@@ -185,6 +230,10 @@ html, body {
 [class^="navra-button-"].disabled:hover {
   transform: none;
   cursor: not-allowed;
+}
+
+.converted-price {
+  font-weight: normal;
 }
 
 .converted-price {
