@@ -9,6 +9,10 @@ const currencySymbols = {
     AUD: 'A$',
     CAD: 'C$',
     ISK: 'kr',
+    DZD: 'DA',
+    CNY: '¥',
+    CZK: 'Kč',
+    TWD: 'NT$',
 };
 
 // Table de correspondance pays => devise
@@ -17,6 +21,11 @@ const currencyGroups = {
     "USD": ["États-Unis", "Porto Rico"],
     "GBP": ["Royaume-Uni", "Irlande du Nord", "Angleterre", "Pays de Galles", "Écosse"],
     "ISK": ["Islande"],
+    "DZD": ["Algérie"],
+    "JPY": ["Japon"],
+    "CNY": ["Chine"],
+    "CZK": ["Tchéquie"],
+    "TWD": ["Taïwan"],
 };
 
 // Fonction pour récupérer la devise à partir du pays
@@ -119,4 +128,3 @@ if (!currency || currency.trim() === '') {
 displayConvertedPrice(price, currency, ticket).then(() => {
     adjustLayout();
 });
-//
