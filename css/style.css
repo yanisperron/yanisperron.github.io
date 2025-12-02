@@ -1,0 +1,141 @@
+/* ------------- FONTS ------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ballet:opsz@16&display=swap');
+@font-face {
+    font-family: "KristallH MfD Pro";
+    src: url("../fonts/KristallHMfDPro-CondensedMedium.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ------------- VAR ------------- */
+
+:root {
+  --font-size: 1rem;
+  --pad-radius: 5px;
+}
+
+/* ------------- body ------------- */
+
+
+
+body {
+    margin: 0;
+    padding: 0;
+    background: #FFFAEB;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 400;
+    font-style: italic;
+    color: #3A3A3A;
+}
+
+.container {
+    width: 700px;
+    height: 100vh;
+    margin: 0 auto; /* centre le container horizontalement */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+}
+
+
+/* --- Titre principal --- */
+.title {
+    font-family: "Ballet", cursive;
+    font-size: calc(var(--font-size)*7.5);
+    font-weight: 400;
+    font-optical-sizing: none;     /* Désactive l'ajustement automatique */
+    font-variation-settings: "opsz" 16; /* Taille optique manuelle */
+    margin-bottom: 0;
+    color: #c5561c;
+    line-height: 0.85;
+}
+
+/* --- Sous-titre --- */
+.subtitle {
+    font-family: "KristallH MfD Pro", serif;
+    font-style: normal;
+    text-transform: uppercase;
+    margin: 1rem 0;
+    font-size: calc(var(--font-size)*2.5);
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+}
+
+/* --- Infos personnelles --- */
+.info {
+    font-size: calc(var(--font-size)*1.2);
+    line-height: 0.5rem;
+    color: #333;
+}
+
+/* --- Image centrale --- */
+.image-wrapper {
+    margin-top: 40px;
+}
+
+.image-wrapper img {
+    width: 600px;
+    height: auto;
+    border-radius: var(--pad-radius);
+    display: block;
+}
+
+/* --- Menu inférieur --- */
+.menu {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-top: 40px;
+    gap: 10%;
+}
+
+.menu a {
+    position: relative;
+    text-decoration: none;
+    border-radius: var(--pad-radius);
+    font-size: calc(var(--font-size)*1);
+    color: #333;
+    font-weight: 400;
+    background-color: #8F0177;
+    padding: 0.8rem;
+    background-color: unset;
+
+    transition: all 0.2s ease;
+}
+
+.underline {
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    width: 0;
+    background: #9CC6DB;
+    transition: all .25s ease;
+    border-radius: var(--pad-radius);
+    transform: translateX(-50%);
+}
+
+/* --------------------
+   RESPONSIVE
+-------------------- */
+
+@media (max-width: 700px) {
+    .container {
+        width: 100%;
+    }
+
+    :root {
+      --font-size: 0.7rem;
+    }
+
+    .landing-image {
+        width: 18rem;
+    }
+
+    .bottom-nav {
+        gap: 1.5rem;
+    }
+}
