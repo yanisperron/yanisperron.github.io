@@ -12,18 +12,32 @@
 /* ------------- VAR ------------- */
 
 :root {
-  --font-size: 1rem;
+  --font-size: 0.95rem;
+  --font-size-vw: 2.2vw;
   --pad-radius: 5px;
+  --main-color: #c5561c;
+  --second-color: #9CC6DB;
 }
 
 /* ------------- body ------------- */
 
+* { background-color: unset !important; }
 
+* { transition: all 0.2s ease; }
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background: #FFFAEB;
+    background-color: #FFFAEB !important;
     font-family: "IBM Plex Mono", monospace;
     font-weight: 400;
     font-style: italic;
@@ -32,15 +46,29 @@ body {
 
 .container {
     width: 700px;
-    height: 100vh;
+    min-height: 90vh;
     margin: 0 auto; /* centre le container horizontalement */
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     align-items: center;
-    justify-content: flex-start;
     text-align: center;
+    background-color: #F4B342;
+    position: relative;
 }
 
+.info-wrapper,
+.image-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info-wrapper {
+    background-color: #360185;
+    width: 100%;
+    align-self: flex-start;
+}
 
 /* --- Titre principal --- */
 .title {
@@ -49,9 +77,12 @@ body {
     font-weight: 400;
     font-optical-sizing: none;     /* Désactive l'ajustement automatique */
     font-variation-settings: "opsz" 16; /* Taille optique manuelle */
+    margin-top: calc(var(--font-size)*2);
     margin-bottom: 0;
-    color: #c5561c;
+    color: var(--main-color);
     line-height: 0.85;
+    background-color: #DE1A58;
+    white-space: nowrap;
 }
 
 /* --- Sous-titre --- */
@@ -63,37 +94,51 @@ body {
     font-size: calc(var(--font-size)*2.5);
     font-weight: 400;
     letter-spacing: 0.1rem;
+    background-color: #DE1A58;
 }
 
 /* --- Infos personnelles --- */
 .info {
-    font-size: calc(var(--font-size)*1.2);
+    font-size: calc(var(--font-size)*1);
     line-height: 0.5rem;
     color: #333;
+    background-color: #DE1A58;
 }
 
 /* --- Image centrale --- */
+
 .image-wrapper {
-    margin-top: 40px;
+    margin: 35px 0;
 }
 
 .image-wrapper img {
-    width: 600px;
-    height: auto;
     border-radius: var(--pad-radius);
-    display: block;
+    flex-grow: 1;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 90%;
+    outline-width: 2px;
+    outline-style: solid;
+    outline-color: var(--second-color);
+    outline-offset: 5px;
 }
 
 /* --- Menu inférieur --- */
-.menu {
-    position: relative;
+.nav-wrapper {
     display: flex;
     justify-content: center;
-    margin-top: 40px;
-    gap: 10%;
+    width: 100%;
+    position: relative;
+    gap: 5%;
+    background-color: #DE1A58;
+    position: relative;
+    bottom: 0;
 }
 
-.menu a {
+.nav-wrapper a {
     position: relative;
     text-decoration: none;
     border-radius: var(--pad-radius);
@@ -103,16 +148,14 @@ body {
     background-color: #8F0177;
     padding: 0.8rem;
     background-color: unset;
-
-    transition: all 0.2s ease;
 }
 
 .underline {
     position: absolute;
     bottom: 0;
-    height: 3px;
+    height: 2px;
     width: 0;
-    background: #9CC6DB;
+    background: var(--main-color) !important;
     transition: all .25s ease;
     border-radius: var(--pad-radius);
     transform: translateX(-50%);
@@ -123,12 +166,12 @@ body {
 -------------------- */
 
 @media (max-width: 700px) {
-    .container {
-        width: 100%;
+    :root {
+      --font-size: 0.8rem;
     }
 
-    :root {
-      --font-size: 0.7rem;
+    .container {
+        width: 100%;
     }
 
     .landing-image {
@@ -137,5 +180,15 @@ body {
 
     .bottom-nav {
         gap: 1.5rem;
+    }
+}
+
+@media (max-width: 550px) {
+    .title {
+      font-size: calc(var(--font-size-vw)*7.5);
+    }
+
+    .subtitle {
+      font-size: calc(var(--font-size-vw)*2.5);
     }
 }
