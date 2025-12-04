@@ -1,4 +1,4 @@
-const nav = document.querySelector('.menu');
+const nav = document.querySelector('.nav-wrapper');
 const u = document.querySelector('.underline');
 
 nav.addEventListener('mouseover', e => {
