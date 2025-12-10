@@ -17,17 +17,33 @@
   --pad-radius: 5px;
   --main-color: #c5561c;
   --second-color: #9CC6DB;
+  --margin-main: 5vh;
+}
+
+/* ------------- transition ------------- */
+
+.fade {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.fade.fade-in {
+  opacity: 1;
+}
+
+.fade.fade-out {
+  opacity: 0;
 }
 
 /* ------------- body ------------- */
 
 * { background-color: unset !important; }
-
-* { transition: all 0.2s ease; }
+* { transition: all 0.5s ease; }
 
 html, body {
     height: 100%;
     margin: 0;
+    padding: 0;
 }
 
 body {
@@ -35,8 +51,6 @@ body {
     align-items: center;
     justify-content: center;
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
     background-color: #FFFAEB !important;
     font-family: "IBM Plex Mono", monospace;
     font-weight: 400;
@@ -45,9 +59,9 @@ body {
 }
 
 .container {
-    width: 700px;
-    min-height: 90vh;
-    margin: 0 auto; /* centre le container horizontalement */
+    width: 90vw;
+    height: 100vh;
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -57,76 +71,86 @@ body {
     position: relative;
 }
 
-.info-wrapper,
-.image-wrapper {
+.info-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-.info-wrapper {
     background-color: #360185;
     width: 100%;
     align-self: flex-start;
+    margin-top: var(--margin-main);
+
 }
 
-/* --- Titre principal --- */
-.title {
-    font-family: "Ballet", cursive;
-    font-size: calc(var(--font-size)*7.5);
-    font-weight: 400;
-    font-optical-sizing: none;     /* Désactive l'ajustement automatique */
-    font-variation-settings: "opsz" 16; /* Taille optique manuelle */
-    margin-top: calc(var(--font-size)*2);
-    margin-bottom: 0;
-    color: var(--main-color);
-    line-height: 0.85;
+.info-wrapper * {
     background-color: #DE1A58;
+    font-weight: 400;
     white-space: nowrap;
 }
+.info-wrapper h1 {
+    margin-top: calc(var(--font-size)*2);
+    margin-bottom: 0;
 
-/* --- Sous-titre --- */
-.subtitle {
+    font-family: "Ballet", cursive;
+    font-size: calc(var(--font-size)*7.5);
+    font-optical-sizing: none;
+    font-variation-settings: "opsz" 16;
+    color: var(--main-color);
+    line-height: 0.85;
+}
+.info-wrapper h2 {
+    margin: 1rem 0;
+
     font-family: "KristallH MfD Pro", serif;
     font-style: normal;
-    text-transform: uppercase;
-    margin: 1rem 0;
     font-size: calc(var(--font-size)*2.5);
-    font-weight: 400;
+    text-transform: uppercase;
     letter-spacing: 0.1rem;
-    background-color: #DE1A58;
 }
-
-/* --- Infos personnelles --- */
-.info {
+.info-wrapper .info {
     font-size: calc(var(--font-size)*1);
     line-height: 0.5rem;
     color: #333;
-    background-color: #DE1A58;
 }
 
-/* --- Image centrale --- */
-
-.image-wrapper {
-    margin: 35px 0;
-}
-
-.image-wrapper img {
-    border-radius: var(--pad-radius);
-    flex-grow: 1;
-    position: relative;
-    overflow: hidden;
+.content-wrapper {
+    flex: 1 1 auto;
+    min-height: 0;
     display: flex;
-    justify-content: center;
+    flex-direction: row;
     align-items: center;
-    max-width: 90%;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: #5A9CB5;
+}
+
+.image {
+    overflow: hidden;
+    width: 50%;
+    height: 80%;
+    border-radius: var(--pad-radius);
     outline-width: 2px;
     outline-style: solid;
     outline-color: var(--second-color);
     outline-offset: 5px;
 }
 
-/* --- Menu inférieur --- */
+.image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.content {
+    flex-grow: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .nav-wrapper {
     display: flex;
     justify-content: center;
@@ -136,6 +160,7 @@ body {
     background-color: #DE1A58;
     position: relative;
     bottom: 0;
+    margin-bottom: var(--margin-main);
 }
 
 .nav-wrapper a {
@@ -165,7 +190,7 @@ body {
    RESPONSIVE
 -------------------- */
 
-@media (max-width: 700px) {
+@media (max-width: 1000px) {
     :root {
       --font-size: 0.8rem;
     }
@@ -174,8 +199,8 @@ body {
         width: 100%;
     }
 
-    .landing-image {
-        width: 18rem;
+    .image {
+        width: 75%;
     }
 
     .bottom-nav {
@@ -184,11 +209,11 @@ body {
 }
 
 @media (max-width: 550px) {
-    .title {
+    .info-wrapper h1 {
       font-size: calc(var(--font-size-vw)*7.5);
     }
 
-    .subtitle {
+    .info-wrapper h2 {
       font-size: calc(var(--font-size-vw)*2.5);
     }
 }
