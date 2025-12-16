@@ -8,23 +8,25 @@ console.log(randomImg);
 
 // EFFET SUR LA NAVBAR
 
-let activeLink = null;
-links.forEach(link => {
-  if (link.getAttribute('href') === currentPage) activeLink = link;
-});
-
-function setUnderline(el) {
-  if (!el) return;
-  u.style.width = el.offsetWidth + 'px';
-  u.style.left = el.offsetLeft + 'px';
-}
-
-window.addEventListener('load', () => setUnderline(activeLink));
 nav.addEventListener('mouseover', e => {
-  if (e.target.tagName === 'A') setUnderline(e.target);
+
+  if(e.target.tagName !== 'A') return;
+
+  const r = e.target.getBoundingClientRect();
+
+  u.style.width = r.width + 'px';
+
+  u.style.left = e.target.offsetLeft + r.width/2 + 'px';
+
 });
-nav.addEventListener('mouseleave', () => setUnderline(activeLink));
-window.addEventListener('resize', () => setUnderline(activeLink));
+
+
+
+nav.addEventListener('mouseleave', () => {
+
+  u.style.width = 0;
+
+});
 
 
 // IMAGE RANDOM
