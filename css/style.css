@@ -37,7 +37,6 @@
 
 /* ------------- body ------------- */
 
-* { background-color: unset !important; }
 * { transition: all 0.5s ease; }
 
 html, body {
@@ -117,7 +116,7 @@ body {
     flex: 1 1 auto;
     min-height: 0;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 100%;
@@ -143,12 +142,11 @@ body {
     object-position: center;
 }
 
-.content {
-    flex-grow: 1;
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.content-wrapper p {
+    margin: 0;
+    background-color: #8F0177;
+    font-size: calc(var(--font-size)*1);
+    color: #333;
 }
 
 .nav-wrapper {
@@ -170,7 +168,6 @@ body {
     font-size: calc(var(--font-size)*1);
     color: #333;
     font-weight: 400;
-    background-color: #8F0177;
     padding: 0.8rem;
     background-color: unset;
 }
